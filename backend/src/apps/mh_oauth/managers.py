@@ -1,5 +1,8 @@
 from django.contrib.auth.models import UserManager
+from django.db import transaction
+
 from .enums import RoleEnum
+# from .models import User
 
 
 class CustomUserManager(UserManager):
@@ -15,3 +18,14 @@ class CustomUserManager(UserManager):
             **extra_fields
         )
 
+
+class MyUserManager:
+    @staticmethod
+    @transaction.atomic
+    def create_user(data: dict):
+        from .models import User
+        password = data.pop("password")
+        user=User(**data)
+        user.set_password(password)
+        user.save()
+        return user
