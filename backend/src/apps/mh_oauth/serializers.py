@@ -55,3 +55,30 @@ class UserOutputSerializer(serializers.ModelSerializer):
             data["avatar"]=instance.avatar.url
         return data
 
+
+class ProfileOutputSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        fields=[
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "gender",
+            "date_of_birth",
+            "role",
+            "date_joined",
+            "avatar",
+            "status"
+        ]
+
+class LoginInputSerializer(serializers.Serializer):
+    username=serializers.CharField(required=True)
+    password=serializers.CharField(required=True, write_only=True)
+
+class LoginOutputSerializer(serializers.Serializer):
+    access_token=serializers.CharField()
+    refresh_token=serializers.CharField()
+    token_type=serializers.CharField()
+    expires=serializers.IntegerField()

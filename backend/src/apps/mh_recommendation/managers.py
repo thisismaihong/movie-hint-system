@@ -38,3 +38,37 @@ class PreferencesManager:
         ]
         PreferenceCountry.objects.bulk_create(objects)
         return objects
+
+    @staticmethod
+    @transaction.atomic
+    def update_preferences(preferences, data):
+        preferences.preferred_release_year_from=data["preferred_release_year_from"]
+        preferences.preferred_release_year_to=data["preferred_release_year_to"]
+        preferences.save()
+        return preferences
+
+    @staticmethod
+    @transaction.atomic
+    def update_preferences_genres(preferences, genre_ids):
+        PreferenceGenre.objects.filter(preference=preferences).delete()
+        objects=[
+            PreferenceGenre(
+                preference=preferences,
+                genre_id=genre_id
+            )for genre_id in genre_ids
+        ]
+        PreferenceGenre.objects.bulk_create(objects)
+        return objects
+
+    @staticmethod
+    @transaction.atomic
+    def update_preferences_countries(preferences, country_ids):
+        PreferenceCountry.objects.filter(preference=preferences).delete()
+        objects=[
+            PreferenceCountry(
+                preference=preferences,
+                country_id=country_id
+            )for country_id in country_ids
+        ]
+        PreferenceCountry.objects.bulk_create(objects)
+        return objects

@@ -17,3 +17,9 @@ def get_current_user(user: User):
             ),
         ).first()
     )
+
+def get_user_by_id(user_id: int):
+    return User.objects.get(id=user_id)
+
+def get_user_by_username(username):
+    return User.objects.filter(username=username).first()

@@ -50,3 +50,25 @@
 }
 ![img_1.png](images/register_success.png)  -> Đăng ký thành công (201)
 ![img_2.png](images/register_fail.png) -> Đăng ký thất bại do tài khoản đã tồn tại (400)
+
+
+## LOGIN
+1. Mô tả:
+- Đây là api dùng cho mục đích đăng nhập
+
+2. Endpoint - Method: POST /api/oauth/login/
+3. Input/output data:
+- Input:
+{
+    "username":"hongmai",
+    "password":"HongMai123@"
+}
+- Output:
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NDcyNjQ1LCJpYXQiOjE3ODQ0NzIzNDUsImp0aSI6ImU0NDA1MzAyMDMyNzQyNWFhOThmMGY4NDA3NDljNTU2IiwidXNlcl9pZCI6IjIifQ.KhEOibVb9fL1jYec4LZ9wvyI5dJ5_scqmgWb2DcOAeo",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4NDU1ODc0NSwiaWF0IjoxNzg0NDcyMzQ1LCJqdGkiOiJhYWJjZGU0OWFjN2Q0ZGJkOGI5YmNmNGZlYTEzMGI1YyIsInVzZXJfaWQiOiIyIn0.eepnYYtkD4Bfcdf9aPVxVnTQlYGGUlX_ZyhQvSycDG8",
+    "token_type": "Bearer",
+    "expires": 3600
+}
+![img_3.png](images/login_success.png) -> Đăng nhập thành công (200)
+

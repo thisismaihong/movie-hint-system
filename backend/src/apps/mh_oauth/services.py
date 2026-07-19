@@ -1,7 +1,10 @@
+from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.tokens import RefreshToken
 
-from . import managers
+from . import managers, selectors
 from apps.mh_recommendation.managers import PreferencesManager
 from apps.mh_movie import selectors as movie_selectors
 
@@ -36,3 +39,23 @@ def register_service(data: dict):
     )
 
     return user
+
+def login_service(data):
+    username=data["username"]
+    password=data["password"]
+    user=authenticate(username=username, password=password)
+    if user is None:
+        raise AuthenticationFailed("Username hoặc password không đúng.")
+    refresh=RefreshToken.for_user(user)
+    return {
+        "access_token": str(refresh.access_token),
+        "refresh_token": str(refresh),
+        "token_type": "Bearer",
+        "expires":3600
+    }
+
+
+def profile_service(user):
+    return selectors.get_user_by_id(user.id)
+
+
