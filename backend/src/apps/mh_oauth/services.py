@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from rest_framework.exceptions import AuthenticationFailed
@@ -58,4 +59,11 @@ def login_service(data):
 def profile_service(user):
     return selectors.get_user_by_id(user.id)
 
+def update_profile_service(user,data):
+    user=selectors.get_user_by_id(user.id)
+    return  managers.MyUserManager.update_profile(user, data)
 
+def change_password_service(user, data):
+    user.set_password(data["new_password"])
+    user.save(update_fields=["password"])
+    return user

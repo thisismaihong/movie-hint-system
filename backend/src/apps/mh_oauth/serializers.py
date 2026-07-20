@@ -82,3 +82,27 @@ class LoginOutputSerializer(serializers.Serializer):
     refresh_token=serializers.CharField()
     token_type=serializers.CharField()
     expires=serializers.IntegerField()
+
+class UpdateProfileInputSerializer(serializers.Serializer):
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    avatar = serializers.ImageField()
+
+class ChangePasswordInputSerializer(serializers.Serializer):
+    old_password=serializers.CharField(write_only=True)
+    new_password=serializers.CharField(write_only=True)
+    confirm_password=serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        user=self.context["request"].user
+        old_password = attrs.get("old_password")
+        new_password = attrs.get("new_password")
+        confirm_password = attrs.get("confirm_password")
+        if not user.check_password(old_password):
+            raise serializers.ValidationError("Mật khẩu cũ chưa đúng")
+        if new_password != confirm_password:
+            raise serializers.ValidationError("Mật khẩu mới không khớp")
+        if old_password == new_password:
+            raise serializers.ValidationError("Mật khẩu mới phải khác mật khẩu cũ")
+        validate_password(new_password, user)
+        return attrs

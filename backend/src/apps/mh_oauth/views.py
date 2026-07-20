@@ -27,8 +27,21 @@ class AuthViewSet(viewsets.ViewSet):
        output=serializers.LoginOutputSerializer(result)
        return Response(output.data, status=status.HTTP_200_OK)
 
-   @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
+   @action(detail=False, methods=["get", "patch"], permission_classes=[IsAuthenticated])
    def profile(self, request):
-       user=services.profile_service(request.user)
-       serializer=serializers.ProfileOutputSerializer(user)
-       return Response(serializer.data)
+       if request.method == "GET":
+           user=services.profile_service(request.user)
+           serializer=serializers.ProfileOutputSerializer(user)
+           return Response(serializer.data)
+
+       serializer=serializers.UpdateProfileInputSerializer(data=request.data, partial=True)
+       serializer.is_valid(raise_exception=True)
+       user=services.update_profile_service(request.user,serializer.validated_data)
+       return Response(serializers.ProfileOutputSerializer(user).data, status=status.HTTP_200_OK)
+
+   @action(detail=False, methods=["patch"], permission_classes=[IsAuthenticated], url_path="profile/change-password")
+   def change_password(self, request):
+       serializer=serializers.ChangePasswordInputSerializer(data=request.data, context={"request": request})
+       serializer.is_valid(raise_exception=True)
+       services.change_password_service(request.user, serializer.validated_data)
+       return Response({"detail": "Đổi mật khẩu thành công"}, status=status.HTTP_200_OK)

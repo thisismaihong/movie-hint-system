@@ -29,3 +29,20 @@ class MyUserManager:
         user.set_password(password)
         user.save()
         return user
+
+    @staticmethod
+    @transaction.atomic
+    def update_profile(user, data: dict):
+        for field, value in data.items():
+            setattr(user, field, value)
+        user.save(update_fields=(data.keys()))
+        return user
+
+    @staticmethod
+    @transaction.atomic
+    def change_password(user, password):
+        user.set_password(password)
+        user.save(update_fields=["password"])
+        return user
+
+

@@ -21,3 +21,32 @@
 }
 
 ![img_1.png](images/get_profile.png)-> Lấy thông tin người dùng đang đăng nhập thành công
+
+## Sửa thông tin người dùng
+1. Mô tả:
+- Đây là api dùng cho mục đích chỉnh sửa thông tin người dùng 
+
+2. Endpoint - Method: 
+- PATCH /api/oauth/profile
+- PATCH /api/oauth/profile/change-password 
+
+3. Input/output data:
+- PATCH /api/oauth/profile
+Trường được sửa: [first_name, last_name, avatar]
+Input:
+{
+    "first_name":"Hồng"
+}
+![img_2.png](images/update_profile.png)
+
+- PATCH /api/oauth/profile/change-password
+(Yêu cầu đầu vào: old_password, new_password, confirm_password)
+
+
+![img_3.png](images/change_password_1.png) -> Mật khẩu cũ chưa đúng 
+![img_4.png](images/change_password_2.png) -> Mật khẩu mới không khớp 
+![img_5.png](images/change_password_3.png) -> Mật khẩu mới giống cũ
+![img_4.png](images/change_password.png) -> Đổi mật khẩu thành công
+
+
+

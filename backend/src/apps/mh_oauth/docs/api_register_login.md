@@ -72,3 +72,21 @@
 }
 ![img_3.png](images/login_success.png) -> Đăng nhập thành công (200)
 
+
+## REFRESH TOKEN
+1. Mô tả:
+- Đây là api dùng cho mục đích tạo lại token đăng nhập
+
+2. Endpoint - Method: POST /api/oauth/refresh/
+3. Input/output data:
+- Input: refresh lấy từ output của đăng nhập
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4NDY0NjM0NSwiaWF0IjoxNzg0NTU5OTQ1LCJqdGkiOiI4ZWRjMDk4MjdmNDY0NzZkOTc0YzBiOTM1ZmQ5Mjg0MSIsInVzZXJfaWQiOiIyIn0.dm2QdSrM5fn0aCpOFOciAxLuYW-7YFQuhLtHkxDRvqk"
+}
+- Output:
+{
+    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NTYwMzIwLCJpYXQiOjE3ODQ1NjAwMjAsImp0aSI6IjE5ODc3MzZlMTMzMjQ5Yjc5M2VhODkxODY3NmQ5MWYxIiwidXNlcl9pZCI6IjIifQ.OOTyBEAQX1SkcaCX4rdZGLkBJ7fQaCX2dbbRoDY_WfI"
+}
+
+![img_4.png](images/refresh_token.png) 
+
