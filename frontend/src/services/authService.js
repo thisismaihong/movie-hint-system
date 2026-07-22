@@ -7,6 +7,9 @@ export const register = async(payload)=>{
 
 
 export const login= async(payload)=>{
+    console.log("BASE URL:", process.env.NEXT_PUBLIC_API_URL);
+    console.log("LOGIN ENDPOINT:", endpoints.login);
+    
     const response=await api.post(endpoints.login, payload);
     return response.data;
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const endpoints = {
     "register": "/oauth/register/",
@@ -55,10 +55,10 @@ axiosInstance.interceptors.response.use(
                 const response = await axios.post(
                     `${BASE_URL}/oauth/refresh/`,
                     {
-                        refresh_token,
+                        refresh,
                     }
                 );
-                const newAccess = response.data.access;
+                const newAccess = response.data.access_token;
                 localStorage.setItem("access", newAccess);
                 originalRequest.headers.Authorization =
                     `Bearer ${newAccess}`;
