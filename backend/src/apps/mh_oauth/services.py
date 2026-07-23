@@ -67,3 +67,9 @@ def change_password_service(user, data):
     user.set_password(data["new_password"])
     user.save(update_fields=["password"])
     return user
+
+def check_availability_service(username, email):
+    return {
+        "username_available": not selectors.check_username_exists(username),
+        "email_available": not selectors.check_email_exists(email),
+    }

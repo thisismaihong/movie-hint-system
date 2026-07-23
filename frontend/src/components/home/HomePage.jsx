@@ -8,7 +8,7 @@ export default function HomePage() {
         <div className="min-h-screen bg-[#07021f] text-white">
             <section className="px-6 py-8 lg:px-10">
                 <div className="mx-auto max-w-7xl">
-                    <Card bordered={false} className="!border-0 !bg-transparent" styles={{ body: { padding: 0 } }}>
+                    <Card variant="borderless" className="!border-0 !bg-transparent">
                         <div className="relative min-h-[400px] overflow-hidden rounded-3xl border border-purple-500/20 bg-gradient-to-r from-[#10062f] via-[#16073e] to-[#21094d] shadow-2xl">
 
                             <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-purple-600/20 blur-3xl" />
@@ -85,7 +85,7 @@ export default function HomePage() {
 
             <section className="px-6 pb-10 lg:px-10">
                 <div className="mx-auto max-w-7xl">
-                    <Card bordered={false} className="!border-0 !bg-[#17112f] shadow-xl" styles={{ body: { padding: "28px" } }}>
+                    <Card variant="borderless" className="!border-0 !bg-transparent">
 
                         <h2 className="mb-8 text-2xl font-bold text-white">
                             MovieHint hoạt động như thế nào?
@@ -96,22 +96,22 @@ export default function HomePage() {
                             items={[
                                 {
                                     title: <span className="text-white">Chia sẻ sở thích</span>,
-                                    description: <span className="text-gray-400">Bạn chia sẻ các thể loại phim yêu thích của mình.</span>,
+                                    content: <span className="text-gray-400">Bạn chia sẻ các thể loại phim yêu thích của mình.</span>,
                                     icon: <User className="text-purple-400" />,
                                 },
                                 {
                                     title: <span className="text-white">MH phân tích</span>,
-                                    description: <span className="text-gray-400">MH phân tích thói quen và sở thích xem phim của bạn.</span>,
+                                    content: <span className="text-gray-400">MH phân tích thói quen và sở thích xem phim của bạn.</span>,
                                     icon: <Brain className="text-purple-400" />,
                                 },
                                 {
                                     title: <span className="text-white">Nhận đề xuất</span>,
-                                    description: <span className="text-gray-400">Hệ thống đề xuất danh sách phim phù hợp nhất.</span>,
+                                    content: <span className="text-gray-400">Hệ thống đề xuất danh sách phim phù hợp nhất.</span>,
                                     icon: <Film className="text-purple-400" />,
                                 },
                                 {
                                     title: <span className="text-white">Đánh giá & cải thiện</span>,
-                                    description: <span className="text-gray-400">Bạn đánh giá phim để MH ngày càng hiểu gu của bạn hơn.</span>,
+                                    content: <span className="text-gray-400">Bạn đánh giá phim để MH ngày càng hiểu gu của bạn hơn.</span>,
                                     icon: <Heart className="text-purple-400" />,
                                 },
                             ]}

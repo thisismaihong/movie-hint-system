@@ -106,3 +106,7 @@ class ChangePasswordInputSerializer(serializers.Serializer):
             raise serializers.ValidationError("Mật khẩu mới phải khác mật khẩu cũ")
         validate_password(new_password, user)
         return attrs
+
+class CheckAvailabilityInputSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    email = serializers.EmailField(required=True)

@@ -7,6 +7,7 @@ export const endpoints = {
     "login": "/oauth/login/",
     "profile": "/oauth/profile/",
     "changePassword": "/oauth/profile/change-password/",
+    "checkAvailability": "/oauth/check-availability/",
 
     "preferences": "/user/preferences/",
 

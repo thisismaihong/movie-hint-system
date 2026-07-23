@@ -13,3 +13,10 @@ export const login= async(payload)=>{
     const response=await api.post(endpoints.login, payload);
     return response.data;
 }
+
+export const checkAvailability=async(username, email)=>{
+    const response=await api.get(endpoints.checkAvailability,{
+        params:{username, email}
+    });
+    return response.data;
+}

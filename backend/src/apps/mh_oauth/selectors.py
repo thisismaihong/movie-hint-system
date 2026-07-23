@@ -23,3 +23,9 @@ def get_user_by_id(user_id: int):
 
 def get_user_by_username(username):
     return User.objects.filter(username=username).first()
+
+def check_username_exists(username):
+    return User.objects.filter(username__iexact=username).exists()
+
+def check_email_exists(email):
+    return User.objects.filter(email__iexact=email).exists()

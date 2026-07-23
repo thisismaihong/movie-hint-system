@@ -1,9 +1,12 @@
+from os.path import exists
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from . import serializers, services, selectors
+from .serializers import CheckAvailabilityInputSerializer
 
 
 class AuthViewSet(viewsets.ViewSet):
@@ -45,3 +48,14 @@ class AuthViewSet(viewsets.ViewSet):
        serializer.is_valid(raise_exception=True)
        services.change_password_service(request.user, serializer.validated_data)
        return Response({"detail": "Đổi mật khẩu thành công"}, status=status.HTTP_200_OK)
+
+   @action(detail=False, methods=["get"], url_path="check-availability", permission_classes=[])
+   def check_availability(self, request):
+       serializer=serializers.CheckAvailabilityInputSerializer(data=request.query_params)
+       serializer.is_valid(raise_exception=True)
+
+       result=services.check_availability_service(
+           username=serializer.validated_data["username"],
+           email=serializer.validated_data["email"],
+       )
+       return Response(result, status=status.HTTP_200_OK)
