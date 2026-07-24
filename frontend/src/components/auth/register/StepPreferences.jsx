@@ -12,32 +12,11 @@ import {
 } from "@ant-design/icons";
 import { Sparkle } from "lucide-react";
 
-const genreOptions = [
-    { value: 1, label: "Action" },
-    { value: 2, label: "Comedy" },
-    { value: 3, label: "Romance" },
-    { value: 4, label: "Drama" },
-    { value: 5, label: "Horror" },
-    { value: 6, label: "Science Fiction" },
-    { value: 7, label: "Fantasy" },
-    { value: 8, label: "Thriller" },
-    { value: 9, label: "Animation" },
-    { value: 10, label: "Documentary" },
-];
-
-const countryOptions = [
-    { value: 1, label: "United States" },
-    { value: 2, label: "South Korea" },
-    { value: 3, label: "Japan" },
-    { value: 4, label: "China" },
-    { value: 5, label: "Vietnam" },
-    { value: 6, label: "United Kingdom" },
-];
 
 const yearOptions = Array.from(
     { length: 70 },
     (_, index) => {
-        const year = 2025 - index;
+        const year = 2026 - index;
 
         return {
             value: year,
@@ -46,7 +25,9 @@ const yearOptions = Array.from(
     }
 );
 
-export default function StepPreferences({ formData, setFormData }) {
+
+
+export default function StepPreferences({ formData, setFormData, preferencesError, genres, countries, loadingOptions }) {
 
     const updatePreference = (field, value) => {
         setFormData({
@@ -57,6 +38,7 @@ export default function StepPreferences({ formData, setFormData }) {
             },
         });
     };
+
 
     return (
         <div className="space-y-8">
@@ -127,6 +109,11 @@ export default function StepPreferences({ formData, setFormData }) {
                         />
 
                     </div>
+                    {preferencesError && (
+                        <p className="mt-2 text-sm text-red-500">
+                            {preferencesError}
+                        </p>
+                    )}
                 </div>
 
                 <div>
@@ -141,18 +128,20 @@ export default function StepPreferences({ formData, setFormData }) {
                     <Select
                         mode="multiple"
                         size="large"
-                        placeholder="Chọn một hoặc nhiều thể loại"
-                        options={genreOptions}
+                        loading={loadingOptions}
+                        placeholder="Chọn tối đa 5 thể loại phim" maxCount={5}
+                        options={genres.map((genre) => ({
+                            label: genre.name,
+                            value: genre.id,
+                        }))}
                         value={formData.preferences.genres}
-                        onChange={(value) =>
-                            updatePreference("genres", value)
-                        }
+                        onChange={(values) => updatePreference("genres", values)}
                         className="w-full"
                         maxTagCount="responsive"
                     />
 
                     <p className="mt-2 text-xs text-gray-400">
-                        Bạn có thể chọn nhiều thể loại phim.
+                        Bạn có thể chọn tối đa 5 thể loại phim yêu thích.
                     </p>
                 </div>
 
@@ -168,18 +157,20 @@ export default function StepPreferences({ formData, setFormData }) {
                     <Select
                         mode="multiple"
                         size="large"
-                        placeholder="Chọn quốc gia sản xuất phim"
-                        options={countryOptions}
+                        loading={loadingOptions}
+                        placeholder="Chọn tối đa 5 quốc gia" maxCount={5}
+                        options={countries.map((country) => ({
+                            label: country.name,
+                            value: country.id,
+                        }))}
                         value={formData.preferences.countries}
-                        onChange={(value) =>
-                            updatePreference("countries", value)
-                        }
+                        onChange={(values) => updatePreference("countries", values)}
                         className="w-full"
                         maxTagCount="responsive"
                     />
 
                     <p className="mt-2 text-xs text-gray-400">
-                        Lựa chọn này giúp hệ thống đề xuất phim phù hợp hơn với bạn.
+                        Bạn có thể chọn tối đa 5 quốc gia yêu thích.
                     </p>
                 </div>
 
@@ -188,7 +179,6 @@ export default function StepPreferences({ formData, setFormData }) {
             <div className="rounded-2xl border border-indigo-100 bg-gradient-to-r from-purple-50 to-indigo-50 p-5">
                 <div className="flex gap-3">
                     <Sparkle/>
-
                     <div>
                         <h3 className="font-semibold text-gray-800">
                             Cá nhân hóa đề xuất

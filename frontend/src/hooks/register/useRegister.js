@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { notification } from "antd";
 import {
     checkAvailability,
     register,
 } from "@/services/authService";
+import { getCountries, getGenres } from "@/services/movieService";
 
 export default function useRegister() {
     const [currentStep, setCurrentStep] = useState(0);
@@ -14,6 +15,11 @@ export default function useRegister() {
     const [usernameError, setUsernameError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [preferencesError, setPreferencesError] = useState("");
+
+    const [genres, setGenres] = useState([]);
+    const [countries, setCountries] = useState([]);
+    const [loadingOptions, setLoadingOptions] = useState(false);
 
     const [formData, setFormData] = useState({
         username: "",
@@ -79,77 +85,124 @@ export default function useRegister() {
         return "";
     };
 
+    const validatePreferences=()=>{
+        const{preferred_release_year_from, preferred_release_year_to, genres, countries}=formData.preferences;
+        if (!preferred_release_year_from) {
+            return "Vui lòng chọn năm bắt đầu yêu thích.";
+        }
+
+        if (!preferred_release_year_to) {
+            return "Vui lòng chọn năm kết thúc yêu thích.";
+        }
+
+        if (
+            Number(preferred_release_year_to) <
+            Number(preferred_release_year_from)
+        ) {
+            return "Năm kết thúc không được nhỏ hơn năm bắt đầu.";
+        }
+
+        if (!genres || genres.length === 0) {
+            return "Vui lòng chọn ít nhất một thể loại phim yêu thích.";
+        }
+
+        if (!countries || countries.length === 0) {
+            return "Vui lòng chọn ít nhất một quốc gia sản xuất phim.";
+        }
+        return "";
+    }
+
+
     const nextStep = async () => {
-        if (currentStep !== 0) {
-            setCurrentStep((prev) => prev + 1);
-            return;
-        }
-
-        const usernameValidation = validateUsername(
-            formData.username
-        );
-        const emailValidation = validateEmail(
-            formData.email
-        );
-        const passwordValidation = validatePassword(
-            formData.password
-        );
-
-        setUsernameError(usernameValidation);
-        setEmailError(emailValidation);
-        setPasswordError(passwordValidation);
-
-        if (usernameValidation || emailValidation || passwordValidation) {
-            return;
-        }
-
-        try {
-            setCheckingAvailability(true);
-
-            setUsernameError("");
-            setEmailError("");
-
-            const result = await checkAvailability(
-                formData.username,
+        //Validate buoc 1
+        if (currentStep === 0) {
+            const usernameValidation = validateUsername(
+                formData.username
+            );
+            const emailValidation = validateEmail(
                 formData.email
             );
+            const passwordValidation = validatePassword(
+                formData.password
+            );
 
-            if (!result.username_available) {
-                setUsernameError(
-                    "Tên đăng nhập này đã tồn tại. Vui lòng chọn tên khác."
-                );
-            }
+            setUsernameError(usernameValidation);
+            setEmailError(emailValidation);
+            setPasswordError(passwordValidation);
 
-            if (!result.email_available) {
-                setEmailError(
-                    "Email này đã được sử dụng. Vui lòng sử dụng email khác."
-                );
-            }
-
-            if (
-                !result.username_available ||
-                !result.email_available
-            ) {
+            if (usernameValidation || emailValidation || passwordValidation) {
                 return;
             }
 
-            setCurrentStep((prev) => prev + 1);
+            try {
+                setCheckingAvailability(true);
 
-        } catch (error) {
-            console.error(
-                "Check availability error:",
-                error
-            );
+                setUsernameError("");
+                setEmailError("");
 
-            notification.error({
-                title: "Không thể kiểm tra thông tin",
-                description: "Vui lòng thử lại sau.",
-                placement: "topRight",
-            });
+                const result = await checkAvailability(
+                    formData.username,
+                    formData.email
+                );
 
-        } finally {
-            setCheckingAvailability(false);
+                if (!result.username_available) {
+                    setUsernameError(
+                        "Tên đăng nhập này đã tồn tại. Vui lòng chọn tên khác."
+                    );
+                }
+
+                if (!result.email_available) {
+                    setEmailError(
+                        "Email này đã được sử dụng. Vui lòng sử dụng email khác."
+                    );
+                }
+
+                if (
+                    !result.username_available ||
+                    !result.email_available
+                ) {
+                    return;
+                }
+
+                setCurrentStep((prev) => prev + 1);
+
+            } catch (error) {
+                console.error(
+                    "Check availability error:",
+                    error
+                );
+
+                notification.error({
+                    title: "Không thể kiểm tra thông tin",
+                    description: "Vui lòng thử lại sau.",
+                    placement: "topRight",
+                });
+
+            } finally {
+                setCheckingAvailability(false);
+            }
+            return;
         }
+
+
+        //Validate buoc 2
+        if (currentStep==1){
+            const preferencesError = validatePreferences();
+            if (preferencesError) {
+                notification.error({
+                    title: "Thông tin sở thích chưa đầy đủ",
+                    description: preferencesError,
+                    placement: "topRight",
+                });
+                return;
+    }
+
+    setCurrentStep((prev) => prev + 1);
+    return;
+        }
+        
+
+        setCurrentStep((prev)=>prev+1);
     };
 
     const prevStep = () => {
@@ -160,9 +213,18 @@ export default function useRegister() {
 
     const handleRegister = async () => {
         try {
-            const res = await register(formData);
+            const payload = {
+                ...formData,
+                date_of_birth: formData.date_of_birth
+                    ? formData.date_of_birth.format("YYYY-MM-DD")
+                    : null,
+            };
 
-            console.log(res);
+            console.log("REGISTER PAYLOAD:", payload);
+
+            const res = await register(payload);
+
+            console.log("Register:", res);
 
             notification.success({
                 title: "Đăng ký thành công",
@@ -178,6 +240,7 @@ export default function useRegister() {
                 "Register error:",
                 error
             );
+            console.error("Backend response:", error?.response?.data);
 
             notification.error({
                 title: "Đăng ký thất bại",
@@ -189,6 +252,35 @@ export default function useRegister() {
         }
     };
 
-    return { currentStep, formData, setFormData, usernameError, emailError, passwordError,
-         checkingAvailability, setUsernameError, setEmailError, setPasswordError, nextStep, prevStep, handleRegister };
+    //Lay du lieu the loai va quoc gia
+    useEffect(() => {
+        const fetchOptions = async () => {
+            try {
+                setLoadingOptions(true);
+
+                const [genresData, countriesData] = await Promise.all([
+                    getGenres(),
+                    getCountries(),
+                ]);
+
+                setGenres(Array.isArray(genresData) ? genresData : []);
+                setCountries(Array.isArray(countriesData) ? countriesData : []);
+
+            } catch(error){
+                console.error("Lỗi lấy dữ liệu phim: ", error);
+                notification.error({
+                    title:"Lỗi dữ liệu.",
+                    description: "Không thể tải danh sách thể loại hoặc quốc gia.",
+                    placement: "topRight"
+                });
+            }finally {
+                setLoadingOptions(false);
+            }
+        };
+
+        fetchOptions();
+    }, []);
+
+    return { currentStep, formData, setFormData, usernameError, emailError, passwordError, preferencesError,
+         checkingAvailability, setUsernameError, setEmailError, setPasswordError, nextStep, prevStep, handleRegister, genres, countries, loadingOptions };
 }

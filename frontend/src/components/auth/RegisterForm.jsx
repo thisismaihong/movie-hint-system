@@ -12,8 +12,8 @@ import StepPolicy from "./register/StepPolicy";
 export default function RegisterForm() {
     const [agreed, setAgreed] = useState(false);
 
-    const { currentStep, formData, setFormData, usernameError, emailError, passwordError,
-        checkingAvailability, nextStep, prevStep, handleRegister } = useRegister();
+    const { currentStep, formData, setFormData, usernameError, emailError, passwordError, preferencesError,
+        checkingAvailability, nextStep, prevStep, handleRegister, genres, countries, loadingOptions } = useRegister();
 
     const steps = [
         {
@@ -45,6 +45,10 @@ export default function RegisterForm() {
                     <StepPreferences
                         formData={formData}
                         setFormData={setFormData}
+                        preferencesError={preferencesError}
+                        genres={genres}
+                        countries={countries}
+                        loadingOptions={loadingOptions}
                     />
                 );
 
