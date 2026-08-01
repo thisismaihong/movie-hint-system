@@ -9,3 +9,8 @@ export const getCountries=async()=>{
     const response=await api.get(endpoints.countries);
     return response.data;
 }
+
+export const getMovies=async(params={})=>{
+    const response=await api.get(endpoints.movies,{params});
+    return response.data;
+}

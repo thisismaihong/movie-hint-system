@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 import { HomeOutlined, StarOutlined, SearchOutlined, HeartOutlined, TrophyOutlined, 
-    HistoryOutlined, UserOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+    HistoryOutlined, UserOutlined, MenuFoldOutlined, MenuUnfoldOutlined , PlaySquareOutlined } from "@ant-design/icons";
 
 import { Button, Menu } from "antd";
 
@@ -13,6 +13,11 @@ const items = [
         key: "/",
         icon: <HomeOutlined />,
         label: "Trang chủ",
+    },
+    {
+        key: "/movies",
+        icon: <PlaySquareOutlined  />,
+        label: "Kho phim của MH",
     },
     {
         key: "/recommendations",

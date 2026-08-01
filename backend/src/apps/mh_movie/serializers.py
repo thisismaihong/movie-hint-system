@@ -64,14 +64,10 @@ class MoviePlatformSerializer(serializers.ModelSerializer):
         fields = ("id","name")
 
 class MovieOutputSerializer(serializers.ModelSerializer):
-    genres = MovieGenreSerializer(
-        source="movie_genres",
-        many=True,
-    )
-    countries = MovieCountrySerializer(
-        source="movie_countries",
-        many=True,
-    )
+    genres = MovieGenreSerializer(source="movie_genres", many=True)
+    countries = MovieCountrySerializer(source="movie_countries", many=True)
+    poster = serializers.SerializerMethodField()
+
     class Meta:
         model = Movie
         fields = (
@@ -81,7 +77,14 @@ class MovieOutputSerializer(serializers.ModelSerializer):
             "release_year",
             "genres",
             "countries",
+            "poster",
         )
+
+    def get_poster(self, obj):
+        if not obj.poster:
+            return None
+
+        return obj.poster.url
 
 class MovieDetailOutputSerializer(serializers.ModelSerializer):
     genres = MovieGenreSerializer(

@@ -6,6 +6,8 @@
 
 2. Endpoint - Method:
 - GET api/movies/
+- Có phân trang (?page), tìm kiếm theo tên phim/diễn viên (?q), lọc theo query param (?release_year, ?country, ?genre)
+VD: api/movies/?q=Night in Paradise&country=Hàn Quốc&release_year=2021&page=1
 
 3. Input/output data:
 - Output:
@@ -76,6 +78,8 @@
 
 
 ![img.png](images/list_normal_movies.png)
+![img_1.png](images/search.png)
+
 
 
 ### Xem chi tiết phim
@@ -83,7 +87,7 @@
 - Đây là api dùng cho mục đích xem chi tiết sự kiện
 
 2. Endpoint - Method:
-- GET api/movies/{id} 
+- GET api/movies/{id}
 
 3. Input/output data:
 - Output: 
@@ -136,4 +140,4 @@
     "description_vn": "",
     "description_en": "This biopic of Thurgood Marshall, the first Black U.S. Supreme Court justice, centers on his pivotal work in a sensational case as an NAACP lawyer."
 }
-![img_3.png](images/movie_details.png) 
+![img_2.png](images/movie_details.png) 

@@ -12,7 +12,13 @@ class MoviesViewSet(GenericViewSet):
     pagination_class = MoviePaginator
 
     def list(self, request):
-        movies=services.get_movies_service()
+        filters={
+            "q": request.query_params.get("q"),
+            "release_year": request.query_params.get("release_year"),
+            "country": request.query_params.get("country"),
+            "genre": request.query_params.get("genre")
+        }
+        movies=services.get_movies_service(filters)
         page=self.paginate_queryset(movies)
         serializer=serializers.MovieOutputSerializer(page, many=True)
         return self.get_paginated_response(serializer.data)
