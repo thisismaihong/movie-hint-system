@@ -24,3 +24,32 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.movie-tabs .ant-tabs-nav::before {
+    border-bottom: none;
+}
+
+.movie-tabs .ant-tabs-tab {
+    color: #bcb8d6;
+    padding: 18px 10px;
+    transition: .25s;
+}
+
+.movie-tabs .ant-tabs-tab:hover {
+    color: white;
+}
+
+.movie-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: white !important;
+    font-weight: 600;
+}
+
+.movie-tabs .ant-tabs-ink-bar {
+    background: #8b5cf6;
+    height: 3px;
+    border-radius: 999px;
+}
+
+.movie-tabs .ant-tabs-content-holder {
+    background: #2b2740;
+}

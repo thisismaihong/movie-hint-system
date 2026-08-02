@@ -14,3 +14,8 @@ export const getMovies=async(params={})=>{
     const response=await api.get(endpoints.movies,{params});
     return response.data;
 }
+
+export const getMovieDetail=async(id)=>{
+    const response=await api.get(endpoints.movieDetail(id));
+    return response.data;
+}

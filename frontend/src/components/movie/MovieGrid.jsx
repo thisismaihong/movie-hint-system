@@ -10,7 +10,6 @@ export default function MovieGrid({ movies=[]}) {
                     <h3 className="mt-4 text-2xl font-semibold text-white">
                         Không tìm thấy phim
                     </h3>
-
                     <p className="mt-2 text-gray-400">
                         Hãy thử thay đổi từ khóa hoặc bộ lọc tìm kiếm.
                     </p>

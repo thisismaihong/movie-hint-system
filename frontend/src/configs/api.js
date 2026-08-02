@@ -14,7 +14,7 @@ export const endpoints = {
     "genres": "/movies/genres/",
     "countries": "/movies/countries/",
     "movies":"/movies/",
-    "movie-details":"/movies/{id}/"
+    "movieDetail": (id)=>`/movies/${id}/`
 };
 
 const axiosInstance = axios.create({
