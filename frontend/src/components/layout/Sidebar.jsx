@@ -7,6 +7,8 @@ import { HomeOutlined, StarOutlined, SearchOutlined, HeartOutlined, TrophyOutlin
     HistoryOutlined, UserOutlined, MenuFoldOutlined, MenuUnfoldOutlined , PlaySquareOutlined } from "@ant-design/icons";
 
 import { Button, Menu } from "antd";
+import { useAuth } from "@/hooks/useAuth";
+
 
 const items = [
     {
@@ -57,7 +59,27 @@ export default function Sidebar() {
     const router = useRouter();
     const pathname = usePathname();
 
+    const publicRoutes=[
+        "/",
+        "/movies"
+    ]
+
+    const {isAuthenticated, isInitializing} = useAuth();
+    const auth = useAuth();
+    console.log(auth);
+
     const handleMenuClick = ({ key }) => {
+        if (isInitializing) return;
+        console.log({
+            key,
+            isAuthenticated,
+            isPublic: publicRoutes.includes(key),
+        });
+        if (!publicRoutes.includes(key) && !isAuthenticated) {
+            router.push("/login");
+            return;
+        }
+        
         router.push(key);
     };
 

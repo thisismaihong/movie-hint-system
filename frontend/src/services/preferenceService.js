@@ -1,6 +1,6 @@
 import api, { endpoints } from "@/configs/api"
 
-export const getPreference=async ()=>{
+export const getPreferences=async ()=>{
     const response=await api.get(endpoints.preferences);
     return response.data;
 }

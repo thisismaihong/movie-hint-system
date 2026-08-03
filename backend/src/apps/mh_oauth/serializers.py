@@ -57,6 +57,7 @@ class UserOutputSerializer(serializers.ModelSerializer):
 
 
 class ProfileOutputSerializer(serializers.ModelSerializer):
+    avatar = serializers.SerializerMethodField()
     class Meta:
         model=User
         fields=[
@@ -73,6 +74,12 @@ class ProfileOutputSerializer(serializers.ModelSerializer):
             "status"
         ]
 
+    def get_avatar(self, obj):
+        if not obj.avatar:
+            return None
+
+        return obj.avatar.url
+
 class LoginInputSerializer(serializers.Serializer):
     username=serializers.CharField(required=True)
     password=serializers.CharField(required=True, write_only=True)
@@ -84,9 +91,12 @@ class LoginOutputSerializer(serializers.Serializer):
     expires=serializers.IntegerField()
 
 class UpdateProfileInputSerializer(serializers.Serializer):
-    first_name = serializers.CharField()
-    last_name = serializers.CharField()
-    avatar = serializers.ImageField()
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    avatar = serializers.ImageField(
+        required=False,
+        allow_null=True,
+    )
 
 class ChangePasswordInputSerializer(serializers.Serializer):
     old_password=serializers.CharField(write_only=True)

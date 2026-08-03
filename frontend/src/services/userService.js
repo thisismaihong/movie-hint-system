@@ -6,7 +6,26 @@ export const getProfile=async()=>{
 }
 
 export const updateProfile=async(payload)=>{
-    const response =await api.patch(endpoints.profile, payload);
+    const formData=new FormData();
+    if(payload.first_name!==undefined){
+        formData.append("first_name", payload.first_name);
+    }
+    if(payload.last_name!==undefined){
+        formData.append("last_name", payload.last_name);
+    }
+    if (payload.avatar) {
+        formData.append("avatar", payload.avatar);
+    }
+
+    const response = await api.patch(
+        endpoints.profile,
+        formData,
+        {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        }
+    );
     return response.data; 
 }
 

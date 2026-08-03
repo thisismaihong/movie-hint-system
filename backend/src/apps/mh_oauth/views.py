@@ -40,6 +40,7 @@ class AuthViewSet(viewsets.ViewSet):
        serializer=serializers.UpdateProfileInputSerializer(data=request.data, partial=True)
        serializer.is_valid(raise_exception=True)
        user=services.update_profile_service(request.user,serializer.validated_data)
+       # print(request.data)
        return Response(serializers.ProfileOutputSerializer(user).data, status=status.HTTP_200_OK)
 
    @action(detail=False, methods=["patch"], permission_classes=[IsAuthenticated], url_path="profile/change-password")
