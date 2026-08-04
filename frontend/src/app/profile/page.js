@@ -2,6 +2,7 @@
 
 import MainLayout from "@/components/layout/MainLayout";
 import ChangePasswordModal from "@/components/profile/ChangePasswordModal";
+import EditPreferenceModal from "@/components/profile/EditPreferenceModal";
 import EditProfileModal from "@/components/profile/EditProfileModal";
 
 import PreferenceCard from "@/components/profile/PreferenceCard";
@@ -53,11 +54,11 @@ export default function ProfilePage(){
                         preferences={preferences}
                         onEdit={() => setOpenPreference(true)}
                     />
-                    {/* <EditPreferenceModal
+                    <EditPreferenceModal
                         open={openPreference}
                         onClose={() => setOpenPreference(false)}
                         preferences={preferences}
-                    /> */}
+                    />
                 </div>
             </div>
         </MainLayout>

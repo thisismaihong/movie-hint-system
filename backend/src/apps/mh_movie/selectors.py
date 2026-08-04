@@ -3,6 +3,7 @@ from django.db.models import Prefetch, Q
 from rest_framework.exceptions import NotFound
 
 from .models import Genre, Country, Movie, MovieGenre, MovieCountry, Actor, MovieActor, MovieDirector, MoviePlatform
+from ..mh_recommendation.models import FavoriteMovie
 
 
 def get_genres_by_id(genre_ids: list[int]):
@@ -67,8 +68,6 @@ def apply_movie_filters(query, filter: dict):
         query=query.filter(movie_genres__genre_id=genre)
 
     return query.distinct()
-
-
 
 
 

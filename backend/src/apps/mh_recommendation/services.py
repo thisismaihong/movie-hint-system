@@ -1,6 +1,8 @@
 from django.db import transaction
 
 from . import selectors, managers
+from .models import FavoriteMovie
+from ..mh_movie.models import Movie
 
 
 def get_preferences_service(user):
@@ -14,3 +16,12 @@ def update_preferences_service(user, data):
     managers.PreferencesManager.update_preferences_genres(preferences, data["genres"])
     managers.PreferencesManager.update_preferences_countries(preferences, data["countries"])
     return selectors.get_preferences(user)
+
+def add_favorite_movie(user, movie_id):
+    movie=Movie.objects.get(pk=movie_id)
+    return FavoriteMovie.objects.get_or_create(user=user, movie=movie)
+
+def delete_favorite_movie(user, movie_id):
+    FavoriteMovie.objects.filter(user=user, movie_id=movie_id).delete()
+
+

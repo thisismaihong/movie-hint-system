@@ -3,7 +3,8 @@ from rest_framework import serializers
 
 from apps.mh_movie.models import Genre, Country
 from . import selectors
-from .models import Preferences
+from .models import Preferences, FavoriteMovie
+from ..mh_movie.serializers import MovieDetailOutputSerializer
 
 
 class PreferencesInputSerializer(serializers.ModelSerializer):
@@ -39,17 +40,6 @@ class PreferencesInputSerializer(serializers.ModelSerializer):
             "countries",
         ]
 
-class GenreOutputSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Genre
-        fields = ["id", "name"]
-
-class CountryOutputSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Country
-        fields = ["id", "name"]
-
-
 class PreferencesOutputSerializer(serializers.ModelSerializer):
     genres = serializers.SerializerMethodField()
     countries = serializers.SerializerMethodField()
@@ -73,3 +63,24 @@ class PreferencesOutputSerializer(serializers.ModelSerializer):
             [item.country for item in obj.preference_countries.all()],
             many=True
         ).data
+
+
+class GenreOutputSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ["id", "name"]
+
+class CountryOutputSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = ["id", "name"]
+
+class FavoriteMovieInputSerializer(serializers.Serializer):
+    movie_id = serializers.IntegerField()
+
+class FavoriteMovieOutputSerializer(serializers.ModelSerializer):
+    movie=MovieDetailOutputSerializer()
+    class Meta:
+        model = FavoriteMovie
+        fields=["movie"]
+

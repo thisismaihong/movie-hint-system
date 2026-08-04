@@ -19,11 +19,10 @@ export default function useChangePassword(){
         catch(error){
             const data = error.response?.data;
 
-            const message =
-                data?.non_field_errors?.[0] ||
-                data?.detail ||
-                Object.values(data || {})?.[0]?.[0] ||
-                "Không thể thay đổi mật khẩu.";
+            const message = data?.non_field_errors?.[0] ||
+                            data?.detail ||
+                            Object.values(data || {})?.[0]?.[0] ||
+                            "Không thể thay đổi mật khẩu.";
 
             notification.error({
                 message: "Đổi mật khẩu thất bại",

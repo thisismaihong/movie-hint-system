@@ -60,16 +60,20 @@ export default function EditProfileModal({ open, onClose, profile }) {
                             </Avatar>
                         )}
                         <Upload showUploadList={false} beforeUpload={beforeUpload}>
-                            <Button shape="circle" icon={<CameraOutlined />} className="!absolute -bottom-1 -right-1 !h-10 !w-10 !border-0 !bg-purple-600 !text-white hover:!bg-purple-500" />
+                            <Button
+                                shape="circle"
+                                icon={<CameraOutlined />}
+                                className="!absolute -bottom-4 -right-2 !h-10 !w-10 !border-0 !bg-purple-600 !text-white hover:!bg-purple-500"
+                            />    
                         </Upload>
                     </div>
                 </div>
 
-                <Form.Item label={<span className="text-white">Họ</span>} name="last_name">
+                <Form.Item label={<span className="text-black">Họ</span>} name="last_name">
                     <Input size="large" className="!h-12 !rounded-xl !border-white/10 !bg-[#2d2943] !text-white" />
                 </Form.Item>
 
-                <Form.Item label={<span className="text-white">Tên</span>} name="first_name">
+                <Form.Item label={<span className="text-black">Tên</span>} name="first_name">
                     <Input size="large" className="!h-12 !rounded-xl !border-white/10 !bg-[#2d2943] !text-white" />
                 </Form.Item>
 
