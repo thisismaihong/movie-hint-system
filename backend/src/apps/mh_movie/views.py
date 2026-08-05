@@ -24,7 +24,7 @@ class MoviesViewSet(GenericViewSet):
         return self.get_paginated_response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        movie=services.get_movie_detail_service(pk)
+        movie=services.get_movie_detail_service(request.user, pk)
         serializer = serializers.MovieDetailOutputSerializer(movie)
         return Response(serializer.data)
 

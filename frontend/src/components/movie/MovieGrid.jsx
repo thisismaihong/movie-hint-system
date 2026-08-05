@@ -2,7 +2,7 @@
 
 import MovieCard from "./MovieCard";
 
-export default function MovieGrid({ movies=[]}) {
+export default function MovieGrid({ movies=[], extraActions}) {
     if (movies.length === 0) {
         return (
             <div className="flex min-h-[350px] items-center justify-center rounded-3xl border border-white/10 bg-white/5">
@@ -23,6 +23,7 @@ export default function MovieGrid({ movies=[]}) {
                 <MovieCard
                     key={movie.id}
                     movie={movie}
+                    extraActions={extraActions? extraActions(movie): null}
                 />
             ))}
         </div>

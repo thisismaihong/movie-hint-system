@@ -1,15 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeftOutlined, HeartOutlined, CalendarOutlined, ClockCircleOutlined, GlobalOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, HeartOutlined, CalendarOutlined, ClockCircleOutlined, GlobalOutlined, UserOutlined, VideoCameraOutlined, HeartFilled } from "@ant-design/icons";
 import { Button, Tag, Typography } from "antd";
 
 import { useRouter } from "next/navigation";
+import useAddFavorite from "@/hooks/favorite/useAddFavorite";
+import { useAuth } from "@/hooks/useAuth";
 
 const { Title, Text } = Typography;
 
 export default function MovieInfo({ movie }) {
     const router = useRouter();
+    const {loading, handleAdd}=useAddFavorite();
+    const {isAuthenticated}=useAuth();
 
     const platformLinks = {
         "netflix": "https://www.netflix.com",
@@ -56,14 +60,30 @@ export default function MovieInfo({ movie }) {
 
                         </div>
 
-                        <Button
-                            type="primary"
-                            size="large"
-                            icon={<HeartOutlined />}
-                            className="!rounded-xl !border-0 !bg-gradient-to-r !from-purple-500 !to-fuchsia-500"
-                        >
-                            Yêu thích
-                        </Button>
+                        {
+                            movie.is_favorite_movie ? (
+                                <Button
+                                    size="large"
+                                    icon={<HeartFilled />}
+                                    disabled
+                                    className="!rounded-xl !border-0 !bg-pink-600 !text-white"
+                                >
+                                    Đã thêm yêu thích
+                                </Button>
+                            ) : (
+                                <Button
+                                    type="primary"
+                                    size="large"
+                                    icon={<HeartOutlined />}
+                                    loading={loading}
+                                    disabled={!isAuthenticated}
+                                    onClick={() => handleAdd(movie.id)}
+                                    className="!rounded-xl !border-0 !bg-gradient-to-r !from-purple-500 !to-fuchsia-500"
+                                >
+                                    Yêu thích
+                                </Button>
+                            )
+                        }
                     </div>
 
                     <div className="mt-6 flex flex-wrap gap-3">

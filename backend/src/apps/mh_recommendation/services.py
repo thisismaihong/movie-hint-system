@@ -21,7 +21,11 @@ def add_favorite_movie(user, movie_id):
     movie=Movie.objects.get(pk=movie_id)
     return FavoriteMovie.objects.get_or_create(user=user, movie=movie)
 
-def delete_favorite_movie(user, movie_id):
-    FavoriteMovie.objects.filter(user=user, movie_id=movie_id).delete()
+def delete_favorite_movie(user, favorite_id):
+    favorite = FavoriteMovie.objects.get(
+        id=favorite_id,
+        user=user,
+    )
 
+    favorite.delete()
 

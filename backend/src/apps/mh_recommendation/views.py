@@ -33,7 +33,7 @@ class FavoriteMovieViewSet(GenericViewSet):
         }
         favorites=selectors.get_favorite_movies(request.user, filters)
         page=self.paginate_queryset(favorites)
-        serializer=movie_serializers.MovieOutputSerializer(page, many=True)
+        serializer=serializers.FavoriteMovieOutputSerializer(page, many=True)
         return self.get_paginated_response(serializer.data)
     def create(self, request):
         serializer=serializers.FavoriteMovieInputSerializer(data=request.data)

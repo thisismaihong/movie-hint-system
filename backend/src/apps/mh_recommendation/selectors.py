@@ -24,19 +24,40 @@ def get_preferences(user):
 
 def get_favorite_movies(user, filters: dict):
     query = (
-        Movie.objects
+        FavoriteMovie.objects
+        .select_related("movie")
         .prefetch_related(
-            "movie_genres__genre",
-            "movie_countries__country",
-            "movie_actors__actor",
+            "movie__movie_genres__genre",
+            "movie__movie_countries__country",
+            "movie__movie_actors__actor",
         )
-        .filter(
-            favorite_users__user_id=user.id
-        )
+        .filter(user=user)
     )
 
-    query = apply_movie_filters(query, filters)
+    q = filters.get("q")
+    release_year = filters.get("release_year")
+    country = filters.get("country")
+    genre = filters.get("genre")
 
+    if q:
+        query = query.filter(
+            Q(movie__title_en__icontains=q) |
+            Q(movie__title_vn__icontains=q) |
+            Q(movie__movie_actors__actor__name__icontains=q)
+        )
+
+    if release_year:
+        query = query.filter(
+            movie__release_year=release_year
+        )
+    if country:
+        query = query.filter(
+            movie__movie_countries__country_id=country
+        )
+    if genre:
+        query = query.filter(
+            movie__movie_genres__genre_id=genre
+        )
     return query.distinct()
 
 

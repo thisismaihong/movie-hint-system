@@ -5,6 +5,7 @@ from apps.mh_movie.models import Genre, Country
 from . import selectors
 from .models import Preferences, FavoriteMovie
 from ..mh_movie.serializers import MovieDetailOutputSerializer
+from ..mh_movie import serializers as movie_serializers
 
 
 class PreferencesInputSerializer(serializers.ModelSerializer):
@@ -78,9 +79,15 @@ class CountryOutputSerializer(serializers.ModelSerializer):
 class FavoriteMovieInputSerializer(serializers.Serializer):
     movie_id = serializers.IntegerField()
 
-class FavoriteMovieOutputSerializer(serializers.ModelSerializer):
-    movie=MovieDetailOutputSerializer()
-    class Meta:
-        model = FavoriteMovie
-        fields=["movie"]
+class FavoriteMovieOutputSerializer(movie_serializers.MovieOutputSerializer):
+    favorite_id = serializers.IntegerField(source="id")
+    class Meta(movie_serializers.MovieOutputSerializer.Meta):
+        fields = [
+            "favorite_id",
+            *movie_serializers.MovieOutputSerializer.Meta.fields,
+        ]
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance.movie)
+        data["favorite_id"] = instance.id
+        return data

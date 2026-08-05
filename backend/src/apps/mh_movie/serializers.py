@@ -78,6 +78,7 @@ class MovieOutputSerializer(serializers.ModelSerializer):
             "genres",
             "countries",
             "poster",
+            # "is_favorite_movie",
         )
 
     def get_poster(self, obj):
@@ -108,6 +109,7 @@ class MovieDetailOutputSerializer(serializers.ModelSerializer):
         many=True,
     )
     poster = serializers.SerializerMethodField()
+    is_favorite_movie = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Movie
@@ -126,6 +128,7 @@ class MovieDetailOutputSerializer(serializers.ModelSerializer):
             "poster",
             "description_vn",
             "description_en",
+            "is_favorite_movie",
         )
 
     def get_poster(self, obj):
