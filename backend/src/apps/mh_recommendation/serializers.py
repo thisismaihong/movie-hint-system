@@ -91,3 +91,11 @@ class FavoriteMovieOutputSerializer(movie_serializers.MovieOutputSerializer):
         data = super().to_representation(instance.movie)
         data["favorite_id"] = instance.id
         return data
+
+class RecommendationOutputSerializer(serializers.Serializer):
+    movie_id = serializers.IntegerField()
+    title_en=serializers.CharField()
+    title_vn=serializers.CharField()
+    release_year = serializers.IntegerField()
+    recommendation_score = serializers.FloatField()
+    reason=serializers.CharField()

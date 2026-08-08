@@ -4,8 +4,12 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet, GenericViewSet
 
 from . import services, serializers,selectors
+from .recommendation.reason.recommendation_context import build_recommendation_context
+from .recommendation.reason.recommendation_reason import generate_recommendation_reason
+from ..mh_recommendation.recommendation.recommend.candidate import get_candidate_movies
+from ..mh_recommendation.recommendation.recommend.user_profile import build_user_profile
 from ..mh_movie.paginators import MoviePaginator
-from ..mh_movie import serializers as movie_serializers
+
 
 class UserPreferenceViewSet(ViewSet):
     @action(detail=False, methods=['get','put'], permission_classes=[permissions.IsAuthenticated], url_path="preferences",)
@@ -43,3 +47,14 @@ class FavoriteMovieViewSet(GenericViewSet):
     def destroy(self, request, pk=None):
         services.delete_favorite_movie(request.user, pk)
         return Response({"detail":"Đã xóa khỏi danh sách yêu thích"},status=status.HTTP_200_OK)
+
+
+class RecommendationViewSet(GenericViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+    def list(self, request):
+        user_profile=build_user_profile(request.user)
+        candidates=get_candidate_movies(user_profile)
+        context=build_recommendation_context(user_profile, candidates)
+        candidates=generate_recommendation_reason(context)
+        serializer=serializers.RecommendationOutputSerializer(candidates, many=True)
+        return Response(serializer.data)

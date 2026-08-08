@@ -12,8 +12,8 @@ def build_user_profile(user):
     ).filter(user=user))
 
     profile={
-        "genres":[item.genre_id for item in preferences.preference_genres.all()],
-        "countries":[item.country_id for item in preferences.preference_countries.all()],
+        "genres": [item.genre.name for item in preferences.preference_genres.all()],
+        "countries": [item.country.name for item in preferences.preference_countries.all()],
         "release_year_from": preferences.preferred_release_year_from,
         "release_year_to": preferences.preferred_release_year_to,
         "favorites":[]
@@ -23,7 +23,7 @@ def build_user_profile(user):
         movie=favorite.movie
         profile["favorites"].append({
             "movie_id": movie.id,
-            "genres":[item.genre_id for item in movie.movie_genres.all()],
-            "countries":[item.country_id for item in movie.movie_countries.all()],
+            "genres": [item.genre.name for item in movie.movie_genres.all()],
+            "countries": [item.country.name for item in movie.movie_countries.all()],
         })
     return profile

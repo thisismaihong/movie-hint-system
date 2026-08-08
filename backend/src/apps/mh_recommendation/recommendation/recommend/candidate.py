@@ -1,5 +1,5 @@
-from .movie_profile import get_movie_profile
-from .scoring import calculate_recommendation_score
+from ..recommend.movie_profile import get_movie_profile
+from ..recommend.scoring import calculate_recommendation_score
 
 
 def get_candidate_movies(user_profile, top_k=20):
@@ -15,8 +15,14 @@ def get_candidate_movies(user_profile, top_k=20):
         recommendation_score=calculate_recommendation_score(user_profile, movie)
         candidates.append({
             "movie_id": movie["movie_id"],
-            "recommendation_score": recommendation_score,
+            "title_en": movie["title_en"],
+            "title_vn": movie["title_vn"],
             "release_year":movie["release_year"],
+            "age_rating": movie["age_rating"],
+            "duration": movie["duration"],
+            "description_en": movie["description_en"],
+            "description_vn": movie["description_vn"],
+            "recommendation_score": recommendation_score,
         })
 
     candidates.sort(
