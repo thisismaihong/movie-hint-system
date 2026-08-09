@@ -9,15 +9,15 @@ export const endpoints = {
     "changePassword": "/oauth/profile/change-password/",
     "checkAvailability": "/oauth/check-availability/",
 
-    "preferences": "/user/preferences/",
-
     "genres": "/movies/genres/",
     "countries": "/movies/countries/",
     "movies":"/movies/",
     "movieDetail": (id)=>`/movies/${id}/`,
 
+    "preferences": "/user/preferences/",
     "favorite":"/favorites/",
     "deleteFavorite":(id)=>`/favorites/${id}/`,
+    "recommendations":"/recommendation/movies/",
     
 };
 
