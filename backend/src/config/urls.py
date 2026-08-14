@@ -39,4 +39,5 @@ urlpatterns = [
     path("api/", include("apps.mh_oauth.urls")),
     path("api/", include("apps.mh_recommendation.urls")),
     path("api/", include("apps.mh_movie.urls")),
+    path("api/", include("apps.mh_search.urls")),
 ]
