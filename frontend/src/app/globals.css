@@ -53,3 +53,8 @@ body {
 .movie-tabs .ant-tabs-content-holder {
     background: #2b2740;
 }
+
+
+.search-description-input .ant-input-data-count {
+    bottom: 8px !important;
+}

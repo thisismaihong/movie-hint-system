@@ -18,6 +18,8 @@ export const endpoints = {
     "favorite":"/favorites/",
     "deleteFavorite":(id)=>`/favorites/${id}/`,
     "recommendations":"/recommendation/movies/",
+
+    "search":"/search/"
     
 };
 

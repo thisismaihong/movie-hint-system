@@ -36,7 +36,7 @@ export default function MovieInfo({ movie }) {
                 <div className="col-span-4">
                     <div className="overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
                         <Image
-                            src={ movie.poster || "/images/poster.png"}
+                            src={ movie?.poster || "/images/poster.png"}
                             width={500}
                             height={600}
                             alt=""
@@ -49,19 +49,19 @@ export default function MovieInfo({ movie }) {
                     <div className="flex items-start justify-between">
                         <div>
                             <Title level={1} className="!mb-2 !text-white">
-                                {movie.title_vn || movie.title_en}
+                                {movie?.title_vn || movie?.title_en}
                             </Title>
 
-                            {movie.title_vn && (
+                            {movie?.title_vn && (
                                 <Text className="!text-lg !text-gray-400">
-                                    {movie.title_en}
+                                    {movie?.title_en}
                                 </Text>
                             )}
 
                         </div>
 
                         {
-                            movie.is_favorite_movie ? (
+                            movie?.is_favorite_movie ? (
                                 <Button
                                     size="large"
                                     icon={<HeartFilled />}
@@ -91,25 +91,25 @@ export default function MovieInfo({ movie }) {
                             icon={<CalendarOutlined />}
                             className="!rounded-full !border-0 !bg-purple-600/20 !px-4 !py-2 !text-white"
                         >
-                            {movie.release_year}
+                            {movie?.release_year}
                         </Tag>
 
                         <Tag
                             className="!rounded-full !border-0 !bg-red-500/20 !px-4 !py-2 !text-red-300"
                         >
-                            {movie.age_rating}
+                            {movie?.age_rating}
                         </Tag>
 
                         <Tag
                             icon={<ClockCircleOutlined />}
                             className="!rounded-full !border-0 !bg-sky-500/20 !px-4 !py-2 !text-sky-300"
                         >
-                            {movie.duration}
+                            {movie?.duration}
                         </Tag>
                     </div>
 
                     <div className="mt-6 flex flex-wrap gap-3">
-                        {movie.genres.map((g) => (
+                        {movie?.genres.map((g) => (
                             <Tag
                                 key={g.id}
                                 className="!rounded-full !border !border-purple-400/40 !bg-white/5 !px-4 !py-2 !text-gray-200"
@@ -129,8 +129,8 @@ export default function MovieInfo({ movie }) {
                         </span>
 
                         <div className="flex flex-wrap gap-2">
-                            {movie.directors.length > 0 ? (
-                                movie.directors.map((d) => (
+                            {movie?.directors.length > 0 ? (
+                                movie?.directors.map((d) => (
                                     <Tag
                                         key={d.id}
                                         className="!rounded-full !border-0 !bg-purple-500/20 !px-3 !py-1 !text-purple-200"
@@ -152,8 +152,8 @@ export default function MovieInfo({ movie }) {
                         </span>
 
                         <div className="flex flex-wrap gap-2">
-                            {movie.actors.length > 0 ? (
-                                movie.actors.map((a) => (
+                            {movie?.actors.length > 0 ? (
+                                movie?.actors.map((a) => (
                                     <Tag
                                         key={a.id}
                                         className="!rounded-full !border-0 !bg-blue-500/20 !px-3 !py-1 !text-blue-200"
@@ -175,7 +175,7 @@ export default function MovieInfo({ movie }) {
                         </span>
 
                         <div className="flex flex-wrap gap-2">
-                            {movie.countries.map((c) => (
+                            {movie?.countries.map((c) => (
                                 <Tag
                                     key={c.id}
                                     className="!rounded-full !border-0 !bg-green-500/20 !px-3 !py-1 !text-green-200"
@@ -192,7 +192,7 @@ export default function MovieInfo({ movie }) {
                         </span>
 
                         <div className="flex flex-wrap gap-2">
-                            {movie.platforms.map((p) => {
+                            {movie?.platforms.map((p) => {
                                 const link = platformLinks[p.name.toLowerCase()];
 
                                 return link ? (

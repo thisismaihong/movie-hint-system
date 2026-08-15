@@ -4,7 +4,7 @@
 - Đây là api dùng cho mục đích tìm kiếm phim dựa trên mô tả nội dung phim.
 
 2. Endpoint - Method:
-- GET api/search/
+- POST api/search/
 
 3. Input/output data:
 - Input:

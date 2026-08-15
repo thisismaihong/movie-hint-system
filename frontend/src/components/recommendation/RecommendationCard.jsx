@@ -21,19 +21,18 @@ export default function RecommendationCard({ movie }) {
             hoverable
             onClick={handleClick}
             variant={false}
-            className="cursor-pointer !overflow-hidden !rounded-[24px] !border !border-white/10 !bg-[#211d38] transition-all duration-300 hover:-translate-y-1 hover:!border-purple-500/40 hover:shadow-[0_12px_40px_rgba(124,58,237,0.15)]"
+            className="cursor-pointer !overflow-hidden !rounded-[24px] !border !border-[#E5E0D8] !bg-white transition-all duration-300 hover:-translate-y-1 hover:!border-[#D6B84C]/40 hover:shadow-[0_12px_40px_rgba(80,70,40,0.10)]"
             styles={{ body: { padding: 0 } }}
         >
             <div className="p-5">
-                {/* Header */}
                 <div className="mb-4 flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                        <h3 className="line-clamp-2 text-lg font-bold leading-7 text-white">
+                        <h3 className="line-clamp-2 text-lg font-bold leading-7 text-[#24211D]">
                             {title}
                         </h3>
 
                         {movie.title_vn && movie.title_en && (
-                            <Text className="mt-1 block !text-sm !text-gray-500">
+                            <Text className="mt-1 block !text-sm !text-[#77716A]">
                                 {movie.title_en}
                             </Text>
                         )}
@@ -41,22 +40,21 @@ export default function RecommendationCard({ movie }) {
 
                     <Tag
                         icon={<CalendarOutlined />}
-                        className="!m-0 !shrink-0 !rounded-full !border-purple-400/20 !bg-purple-500/10 !px-3 !py-1 !text-purple-300"
+                        className="!m-0 !shrink-0 !rounded-full !border-[#DDD7CC] !bg-[#F7F5F1] !px-3 !py-1 !text-[#5F5952]"
                     >
                         {movie.release_year}
                     </Tag>
                 </div>
 
-                {/* Match score */}
                 <div className="mb-4">
                     <div className="mb-1.5 flex items-center justify-between">
-                        <Text className="!text-sm !text-gray-400">
+                        <Text className="!text-sm !text-[#77716A]">
                             Độ phù hợp
                         </Text>
 
                         <div className="flex items-center gap-1.5">
-                            <StarFilled className="!text-yellow-400" />
-                            <Text className="!text-sm !font-semibold !text-purple-300">
+                            <StarFilled className="!text-[#D6A91D]" />
+                            <Text className="!text-sm !font-semibold !text-[#8A6D16]">
                                 {score}%
                             </Text>
                         </div>
@@ -65,46 +63,45 @@ export default function RecommendationCard({ movie }) {
                     <Progress
                         percent={score}
                         showInfo={false}
-                        strokeColor="#8B5CF6"
-                        railColor="#3a3552"
+                        strokeColor="#D6B84C"
+                        railColor="#EAE6DE"
                         size="small"
                     />
                 </div>
 
-                <Divider className="!my-4 !border-white/10" />
+                <Divider className="!my-4 !border-[#E8E3DB]" />
 
-                {/* AI reason */}
                 <Tooltip
                     title={movie.reason}
                     placement="top"
-                    color="#2d2943"
+                    color="#FFF8D6"
                     styles={{
                         body: {
                             maxWidth: 420,
-                            color: "#e5e7eb",
+                            color: "#2D2926",
                             lineHeight: 1.6,
                         },
                     }}
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="group rounded-2xl border border-purple-400/10 bg-purple-500/5 p-4 transition-all duration-300 hover:border-purple-400/30 hover:bg-purple-500/10"
+                        className="group rounded-2xl border border-[#D6B84C]/30 bg-[#F7E7A8] p-4 transition-all duration-300 hover:border-[#C9A92E]/50 hover:bg-[#F9EAB5]"
                     >
                         <div className="mb-2 flex items-center gap-2">
-                            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-purple-500/15">
-                                <BulbOutlined className="!text-purple-400" />
+                            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#D6B84C]/20">
+                                <BulbOutlined className="!text-[#8A6D16]" />
                             </div>
 
-                            <Text className="!font-semibold !text-purple-300">
+                            <Text className="!font-semibold !text-[#3A321F]">
                                 Vì sao đề xuất?
                             </Text>
                         </div>
 
-                        <p className="line-clamp-3 text-sm leading-6 text-gray-300">
+                        <p className="line-clamp-3 text-sm leading-6 text-[#3A362D]">
                             {movie.reason}
                         </p>
 
-                        <span className="mt-2 block text-xs text-purple-400 opacity-0 transition-opacity group-hover:opacity-100">
+                        <span className="mt-2 block text-xs text-[#8A6D16] opacity-0 transition-opacity group-hover:opacity-100">
                             Di chuột để xem đầy đủ lý do
                         </span>
                     </div>
