@@ -5,7 +5,7 @@ from rest_framework.viewsets import ViewSet, GenericViewSet
 
 from . import services, serializers
 from .paginators import MoviePaginator
-
+from rest_framework import status
 
 class MoviesViewSet(GenericViewSet):
     permission_classes = [permissions.AllowAny]
@@ -40,3 +40,11 @@ class MoviesViewSet(GenericViewSet):
         serializer=serializers.CountrySerializer(countries, many=True)
         return Response(serializer.data)
 
+    @action(detail=True, methods=["post"], url_path="translate")
+    def translate(self, request, pk=None):
+        movie=services.translate_description_service(pk)
+        return Response({
+            "movie_id":movie.id,
+            "description_en":movie.description_en,
+            "description_vn":movie.description_vn,
+        }, status=status.HTTP_200_OK)

@@ -6,7 +6,7 @@ from .prompt_langchain import build_search_prompt
 
 load_dotenv()
 
-llm=ChatGoogleGenerativeAI(model="gemini-3.6-flash", api_key=os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"))
+llm=ChatGoogleGenerativeAI(model="gemini-3.6-flash", api_key=os.getenv("GEMINI_API_KEY"))
 def generate_search_reason(context):
     prompt = build_search_prompt()
     message=prompt.invoke({
