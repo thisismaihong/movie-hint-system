@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ArrowLeftOutlined, HeartOutlined, CalendarOutlined, ClockCircleOutlined, GlobalOutlined, UserOutlined, VideoCameraOutlined, HeartFilled } from "@ant-design/icons";
-import { Button, Tag, Typography } from "antd";
+import { Button, Tag, Tooltip, Typography } from "antd";
 
 import { useRouter } from "next/navigation";
 import useAddFavorite from "@/hooks/favorite/useAddFavorite";
@@ -71,17 +71,23 @@ export default function MovieInfo({ movie }) {
                                     Đã thêm yêu thích
                                 </Button>
                             ) : (
-                                <Button
-                                    type="primary"
-                                    size="large"
-                                    icon={<HeartOutlined />}
-                                    loading={loading}
-                                    disabled={!isAuthenticated}
-                                    onClick={() => handleAdd(movie.id)}
-                                    className="!rounded-xl !border-0 !bg-gradient-to-r !from-purple-500 !to-fuchsia-500"
+                                <Tooltip
+                                    title={!isAuthenticated ? "Vui lòng đăng nhập để có trải nghiệm trọn vẹn" : ""}
                                 >
-                                    Yêu thích
-                                </Button>
+                                    <span>
+                                        <Button
+                                            type="primary"
+                                            size="large"
+                                            icon={<HeartOutlined />}
+                                            loading={loading}
+                                            disabled={!isAuthenticated}
+                                            onClick={() => handleAdd(movie.id)}
+                                            className="!rounded-xl !border-0 !bg-gradient-to-r !from-purple-500 !to-fuchsia-500"
+                                        >
+                                            Yêu thích
+                                        </Button>
+                                    </span>
+                                </Tooltip>
                             )
                         }
                     </div>

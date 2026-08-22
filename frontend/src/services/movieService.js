@@ -19,3 +19,8 @@ export const getMovieDetail=async(id)=>{
     const response=await api.get(endpoints.movieDetail(id));
     return response.data;
 }
+
+export const translateDescription=async(id)=>{
+    const response=await api.post(endpoints.translate_description(id));
+    return response.data;
+}

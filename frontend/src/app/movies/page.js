@@ -8,7 +8,8 @@ import useMovies from "@/hooks/movie/useMovies";
 import { CalendarOutlined } from "@ant-design/icons";
 
 export default function MoviesPage() {
-    const { movies, genres, countries, loading, filters, pagination, handleChange, handleSearch, resetFilters, fetchMovies } = useMovies();
+    const { movies, genres, countries, loading, filters, pagination, 
+        handleChange, handleSearch, resetFilters, fetchMovies, handlePageChange } = useMovies();
     return (
         <MainLayout>
         
@@ -52,7 +53,7 @@ export default function MoviesPage() {
                 current={pagination.current}
                 pageSize={pagination.pageSize}
                 total={pagination.total}
-                onChange={(page) => fetchMovies(page)}
+                onChange={handlePageChange}
             />
 
         </MainLayout>

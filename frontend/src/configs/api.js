@@ -13,6 +13,7 @@ export const endpoints = {
     "countries": "/movies/countries/",
     "movies":"/movies/",
     "movieDetail": (id)=>`/movies/${id}/`,
+    "translate_description":(id)=>`/movies/${id}/translate/`,
 
     "preferences": "/user/preferences/",
     "favorite":"/favorites/",

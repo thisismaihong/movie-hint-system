@@ -76,7 +76,7 @@ Quá trình Retrieval được thực hiện theo thứ tự sau:
 ### Bước 3. Semantic Search trên Elasticsearch (retrieval/search_movies.py)
 - Elasticsearch thực hiện vector search trên field embedding
 - Với các tham số: k = 20, num_candidates = 100
-### Bước 4. Tính similarity score
+### Bước 4. Tính similarity scoresearch_movies
 - Elasticsearch sử dụng cosine similarity để đánh giá mức độ tương đồng giữa query embedding và movie embedding.
 - Giá trị _score được Elasticsearch trả về cùng với mỗi kết quả search.
 ### Bước 5. Retrieval kết quả

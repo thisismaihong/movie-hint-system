@@ -59,7 +59,7 @@ export default function MovieSearch({filters, genres, countries, loading, onChan
                             },
                             ...countries.map((country) => ({
                                 label: country.name,
-                                value: country.id,
+                                value: String(country.id),
                             })),
                         ]}
                     />
@@ -82,7 +82,7 @@ export default function MovieSearch({filters, genres, countries, loading, onChan
                             },
                             ...genres.map((genre) => ({
                                 label: genre.name,
-                                value: genre.id,
+                                value: String(genre.id),
                             })),
                         ]}
                     />

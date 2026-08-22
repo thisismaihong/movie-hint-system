@@ -1,8 +1,17 @@
 import { getCountries, getGenres, getMovies } from "@/services/movieService";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+const emptyFilters = {
+    q: "",
+    genre: "",
+    country: "",
+    release_year: "",
+};
 
 export default function useMovies(){
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const[movies, setMovies]=useState([]);
     const [genres, setGenres] = useState([]);
     const [countries, setCountries] = useState([]);
@@ -12,33 +21,7 @@ export default function useMovies(){
         total:0,
         pageSize:20
     });
-    const[filters, setFilters]=useState({
-        q: "",
-        genre: "",
-        country: "",
-        release_year: "",
-    });
-
-    const handleChange=(field, value)=>{
-        setFilters((prev)=>({
-            ...prev, [field]: value
-        }))
-    };
-
-    const handleSearch=()=>{
-        fetchMovies(1, filters)
-    };
-
-    const resetFilters=()=>{
-        const empty={
-            q: "",
-            genre: "",
-            country: "",
-            release_year: "",
-        };
-        setFilters(empty);
-        fetchMovies(1, empty);
-    };
+    const[filters, setFilters]=useState(emptyFilters);
 
     const fetchMovies = async(page=pagination.current, customFilters=filters)=>{
         setLoading(true);
@@ -58,9 +41,20 @@ export default function useMovies(){
             setLoading(false);
         }
     };
+
+    useEffect(()=>{
+        const urlFilters={
+            q: searchParams.get("q") || "",
+            genre: searchParams.get("genre") || "",
+            country: searchParams.get("country") || "",
+            release_year: searchParams.get("release_year") || "",
+        };
+        const page=Number(searchParams.get("page")) || 1;
+        setFilters(urlFilters);
+        fetchMovies(page, urlFilters);
+    },[searchParams]);
     
     useEffect(()=>{
-        fetchMovies();
         const fetchFilters=async()=>{
             try{
                 const[genreData, countryData]=await Promise.all([getGenres(), getCountries()]);
@@ -77,7 +71,34 @@ export default function useMovies(){
         fetchFilters();
     },[]);
 
+    const handleChange=(field, value)=>{
+        setFilters((prev)=>({
+            ...prev, [field]: value
+        }))
+    };
+
+    const handleSearch=()=>{
+        const params=new URLSearchParams();
+        Object.entries(filters).forEach(([key, value])=>{
+            if(value){
+                params.set(key, value);
+            }
+        });
+        params.set("page","1");
+        router.push(`/movies?${params.toString()}`);
+    };
+
+    const resetFilters = () => {
+        setFilters(emptyFilters);
+        router.push("/movies");
+    };
+    const handlePageChange = (page) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("page", page.toString());
+        router.push(`/movies?${params.toString()}`);
+    };
+
     return {movies, loading, filters, setFilters, pagination, fetchMovies,
-        genres, countries, handleChange, handleSearch, resetFilters
+        genres, countries, handleChange, handleSearch, resetFilters, handlePageChange
     };
 }
