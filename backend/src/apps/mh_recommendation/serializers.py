@@ -92,10 +92,21 @@ class FavoriteMovieOutputSerializer(movie_serializers.MovieOutputSerializer):
         data["favorite_id"] = instance.id
         return data
 
-class RecommendationOutputSerializer(serializers.Serializer):
+
+class RecommendationSerializer(serializers.Serializer):
     movie_id = serializers.IntegerField()
-    title_en=serializers.CharField()
-    title_vn=serializers.CharField()
-    release_year = serializers.IntegerField()
-    recommendation_score = serializers.FloatField()
-    reason=serializers.CharField()
+    title_en = serializers.CharField(allow_null=True)
+    title_vn = serializers.CharField(allow_null=True)
+    genres = serializers.ListField()
+    countries = serializers.ListField()
+    release_year = serializers.IntegerField(allow_null=True)
+    age_rating = serializers.CharField(allow_null=True)
+    duration = serializers.CharField(allow_null=True)
+    description_en = serializers.CharField(allow_null=True)
+    description_vn = serializers.CharField(allow_null=True)
+
+
+class RecommendationOutputSerializer(serializers.Serializer):
+    movie = RecommendationSerializer()
+    score = serializers.FloatField()
+    # reason = serializers.CharField(allow_null=True)

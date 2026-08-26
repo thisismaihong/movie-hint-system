@@ -3,6 +3,9 @@ from django.db import transaction
 from . import selectors, managers
 from .models import FavoriteMovie
 from ..mh_movie.models import Movie
+from .recommendation.recommend.elasticsearch_recommendation import (
+    get_elasticsearch_recommendations,
+)
 
 
 def get_preferences_service(user):
@@ -26,6 +29,7 @@ def delete_favorite_movie(user, favorite_id):
         id=favorite_id,
         user=user,
     )
-
     favorite.delete()
 
+def get_recommendations_service(user, top_k=40):
+    return get_elasticsearch_recommendations(user, top_k)

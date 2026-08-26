@@ -13,9 +13,9 @@ def generate_recommendation_reason(context):
     response=llm.invoke(message)
     reasons=json.loads(response.content[0]["text"])
     reason_map={
-        item["movie_id"]: item["reason"] for item in reasons
+        item["movie_id"]: item["retrieval"] for item in reasons
     }
     candidates=context["candidates"]
     for movie in candidates:
-        movie["reason"]=reason_map.get(movie["movie_id"])
+        movie["retrieval"]=reason_map.get(movie["movie_id"])
     return candidates

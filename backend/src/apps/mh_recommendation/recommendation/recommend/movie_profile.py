@@ -20,3 +20,11 @@ def get_movie_profile():
             "description_vn": movie.description_vn,
         })
     return profiles
+
+def build_movie_embedding_text(profile):
+    return f"""
+            Genres: {", ".join(profile["genres"])}
+            Countries: {", ".join(profile["countries"])}
+            Release year: {profile["release_year"]}
+            Description: {profile["description_en"] or ""}
+            """.strip()

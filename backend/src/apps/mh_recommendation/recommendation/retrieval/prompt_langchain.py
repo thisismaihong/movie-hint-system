@@ -29,7 +29,7 @@ def build_recommendation_prompt():
             [
                 {{
                     "movie_id": 965,
-                    "reason": "Lý do đề xuất..."
+                    "retrieval": "Lý do đề xuất..."
                 }}
             ]
             """
