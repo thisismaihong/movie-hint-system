@@ -1,9 +1,10 @@
 import api, { endpoints } from "@/configs/api"
 
-export const getRecommendations=async()=>{
-    console.log("recommendations:", endpoints.recommendations);
-    const response=await api.get(endpoints.recommendations);
+export const getRecommendations=async(params={})=>{
+    const response=await api.get(endpoints.recommendations, {params});
     return response.data;
 };
+
+
 
 

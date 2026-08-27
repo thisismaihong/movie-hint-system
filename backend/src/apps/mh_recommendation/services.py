@@ -2,6 +2,9 @@ from django.db import transaction
 
 from . import selectors, managers
 from .models import FavoriteMovie
+from .recommendation.recommend.user_profile import build_user_profile
+from .recommendation.retrieval.recommendation_context import build_recommendation_context
+from .recommendation.retrieval.recommendation_reason import generate_recommendation_reason
 from ..mh_movie.models import Movie
 from .recommendation.recommend.elasticsearch_recommendation import (
     get_elasticsearch_recommendations,
@@ -32,4 +35,8 @@ def delete_favorite_movie(user, favorite_id):
     favorite.delete()
 
 def get_recommendations_service(user, top_k=40):
-    return get_elasticsearch_recommendations(user, top_k)
+    user_profile=build_user_profile(user)
+    candidates=get_elasticsearch_recommendations(user, top_k)
+    context=build_recommendation_context(user_profile, candidates)
+    recommendations=generate_recommendation_reason(context)
+    return recommendations

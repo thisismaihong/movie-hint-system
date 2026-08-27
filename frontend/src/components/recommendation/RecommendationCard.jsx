@@ -6,10 +6,11 @@ import { useRouter } from "next/navigation";
 
 const { Text } = Typography;
 
-export default function RecommendationCard({ movie }) {
+export default function RecommendationCard({ recommendation }) {
     const router = useRouter();
+    const movie=recommendation.movie;
 
-    const score = Math.round((movie.recommendation_score || 0) * 100);
+    const score = Math.round((recommendation.score || 0) * 100);
     const title = movie.title_vn || movie.title_en;
 
     const handleClick = () => {
@@ -69,10 +70,19 @@ export default function RecommendationCard({ movie }) {
                     />
                 </div>
 
+                <div className="mb-4 flex flex-wrap gap-2">
+                    {movie.genres?.map((genre) => (
+                        <Tag
+                            key={genre}
+                            className="!m-0 !rounded-full !border-[#DDD7CC] !bg-[#F7F5F1] !text-[#5F5952]"
+                        >
+                            {genre}
+                        </Tag>
+                    ))}
+                </div>
                 <Divider className="!my-4 !border-[#E8E3DB]" />
-
                 <Tooltip
-                    title={movie.reason}
+                    title={recommendation.reason}
                     placement="top"
                     color="#FFF8D6"
                     styles={{
@@ -96,11 +106,9 @@ export default function RecommendationCard({ movie }) {
                                 Vì sao đề xuất?
                             </Text>
                         </div>
-
                         <p className="line-clamp-3 text-sm leading-6 text-[#3A362D]">
-                            {movie.reason}
+                            {recommendation.reason}
                         </p>
-
                         <span className="mt-2 block text-xs text-[#8A6D16] opacity-0 transition-opacity group-hover:opacity-100">
                             Di chuột để xem đầy đủ lý do
                         </span>

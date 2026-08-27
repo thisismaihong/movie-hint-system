@@ -6,9 +6,6 @@ from rest_framework.viewsets import ViewSet, GenericViewSet
 from . import services, serializers,selectors
 from .recommendation.cache import invalidate_recommendation_cache
 from .services import get_recommendations_service
-# from .recommendation.reason.recommendation_context import build_recommendation_context
-# from .recommendation.reason.recommendation_reason import generate_recommendation_reason
-# from ..mh_recommendation.recommendation.recommend.candidate import get_candidate_movies
 from ..mh_recommendation.recommendation.recommend.user_profile import build_user_profile
 from ..mh_movie.paginators import MoviePaginator
 from ..mh_recommendation.recommendation.cache import get_cached_recommendations, set_cached_recommendations
@@ -53,41 +50,40 @@ class FavoriteMovieViewSet(GenericViewSet):
         invalidate_recommendation_cache(request.user.id) #hành vi thay đổi thì phải xóa cache cũ
         return Response({"detail":"Đã xóa khỏi danh sách yêu thích"},status=status.HTTP_200_OK)
 
-#
-# class RecommendationViewSet(GenericViewSet):
-#     permission_classes = [permissions.IsAuthenticated]
-#     def list(self, request):
-#         #Luu cache
-#         user_id=request.user.id
-#         cached_recommendations=get_cached_recommendations(user_id)
-#         #Có cache thì trả luôn
-#         if cached_recommendations is not None:
-#             serializer=serializers.RecommendationOutputSerializer(cached_recommendations, many=True)
-#             return Response(serializer.data)
-#
-#         #Không có cache mới tính recommendations
-#         print("--- RUNNING ELASTICSEARCH RECOMMENDATION ---")
-#         recommendations=get_recommendations_service(request.user, top_k=40)
-#         #Lưu kq cache vào redis
-#         set_cached_recommendations(user_id, recommendations)
-#
-#         serializer=serializers.RecommendationOutputSerializer(recommendations, many=True)
-#         return Response(serializer.data)
 
 class RecommendationViewSet(GenericViewSet):
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = MoviePaginator
 
     def list(self, request):
-        recommendations = get_recommendations_service(
-            request.user,
-            top_k=40
+        user_id = request.user.id
+        recommendations = get_cached_recommendations(user_id)
+
+        if recommendations is None:
+            print("RUNNING ELASTICSEARCH RECOMMENDATION")
+            recommendations = get_recommendations_service(
+                request.user,
+                top_k=40
+            )
+            set_cached_recommendations(
+                user_id,
+                recommendations
+            )
+
+        filters = {
+            "q": request.query_params.get("q"),
+            "release_year": request.query_params.get("release_year"),
+            "country": request.query_params.get("country"),
+            "genre": request.query_params.get("genre"),
+        }
+        recommendations = selectors.filter_recommendations(
+            recommendations,
+            filters
         )
 
-        print("RECOMMENDATION COUNT:", len(recommendations))
-
+        page = self.paginate_queryset(recommendations)
         serializer = serializers.RecommendationOutputSerializer(
-            recommendations,
+            page,
             many=True
         )
-
-        return Response(serializer.data)
+        return self.get_paginated_response(serializer.data)

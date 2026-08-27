@@ -38,7 +38,7 @@ def build_search_prompt():
                 {{
                     "movie_id": 965,
                     "title_en": "See You Yesterday",
-                    "retrieval": "Lý do phim phù hợp với truy vấn..."
+                    "reason": "Lý do phim phù hợp với truy vấn..."
                 }}
             ]
             """

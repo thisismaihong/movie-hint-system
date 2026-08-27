@@ -64,7 +64,7 @@ class MovieSearchView(GenericViewSet):
                 "title_vn": movie["title_vn"],
                 "release_year": movie["release_year"],
                 "score": movie["score"],
-                "retrieval": item["retrieval"]
+                "reason": item["reason"]
             })
 
         serializer=SearchOutputSerializer(results, many=True)

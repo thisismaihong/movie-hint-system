@@ -109,4 +109,4 @@ class RecommendationSerializer(serializers.Serializer):
 class RecommendationOutputSerializer(serializers.Serializer):
     movie = RecommendationSerializer()
     score = serializers.FloatField()
-    # reason = serializers.CharField(allow_null=True)
+    reason = serializers.CharField(allow_null=True)

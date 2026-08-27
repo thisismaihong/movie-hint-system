@@ -64,3 +64,41 @@ def get_favorite_movies(user, filters: dict):
 def is_favorite_movie(user, movie_id):
     return FavoriteMovie.objects.filter(user=user, movie_id=movie_id).exists()
 
+
+def filter_recommendations(recommendations, filters):
+    q = filters.get("q")
+    release_year = filters.get("release_year")
+    country = filters.get("country")
+    genre = filters.get("genre")
+
+    result = recommendations
+
+    if q:
+        q = q.lower()
+        result = [
+            item for item in result
+            if q in (item["movie"]["title_en"] or "").lower()
+            or q in (item["movie"]["title_vn"] or "").lower()
+        ]
+    if release_year:
+        result = [
+            item for item in result
+            if str(item["movie"]["release_year"]) == str(release_year)
+        ]
+    if country:
+        result = [
+            item for item in result
+            if any(
+                str(country) == str(country_name)
+                for country_name in item["movie"]["countries"]
+            )
+        ]
+    if genre:
+        result = [
+            item for item in result
+            if any(
+                str(genre) == str(genre_name)
+                for genre_name in item["movie"]["genres"]
+            )
+        ]
+    return result
