@@ -13,7 +13,7 @@ class RegisterInputSerializer(serializers.Serializer):
     password = serializers.CharField(required=True, min_length=8, write_only=True)
     email = serializers.EmailField(required=True)
     gender=  serializers.ChoiceField(choices=GenderEnum.choices)
-    date_of_birth=serializers.DateField()
+    date_of_birth=serializers.DateField(required=False)
     preferences=PreferencesInputSerializer()
 
     def validate_username(self, value):

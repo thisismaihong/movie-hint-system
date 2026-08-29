@@ -47,6 +47,9 @@ def login_service(data):
     user=authenticate(username=username, password=password)
     if user is None:
         raise AuthenticationFailed("Username hoặc password không đúng.")
+    if user.role != "user":
+        raise AuthenticationFailed("Tài khoản không được phép đăng nhập.")
+
     refresh=RefreshToken.for_user(user)
     return {
         "access_token": str(refresh.access_token),
