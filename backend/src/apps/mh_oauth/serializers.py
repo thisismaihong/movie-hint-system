@@ -12,9 +12,9 @@ class RegisterInputSerializer(serializers.Serializer):
     username = serializers.CharField(required=True, max_length=150)
     password = serializers.CharField(required=True, min_length=8, write_only=True)
     email = serializers.EmailField(required=True)
-    gender=  serializers.ChoiceField(choices=GenderEnum.choices)
-    date_of_birth=serializers.DateField(required=False)
-    preferences=PreferencesInputSerializer()
+    gender=  serializers.ChoiceField(choices=GenderEnum.choices, required=True)
+    date_of_birth=serializers.DateField(required=True)
+    preferences=PreferencesInputSerializer(required=True)
 
     def validate_username(self, value):
         if User.objects.filter(username=value).exists():
@@ -31,9 +31,10 @@ class RegisterInputSerializer(serializers.Serializer):
         return value
 
     def validate(self, attrs):
-        birth=attrs["date_of_birth"]
-        if birth.year < 1900 or (birth.year > datetime.now().year):
+        birth = attrs.get("date_of_birth")
+        if birth and (birth.year < 1900 or birth.year > datetime.now().year):
             raise serializers.ValidationError("Ngày sinh không hợp lệ.")
+
         return attrs
 
 
