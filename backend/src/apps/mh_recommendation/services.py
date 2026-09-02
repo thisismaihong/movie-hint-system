@@ -34,6 +34,14 @@ def delete_favorite_movie(user, favorite_id):
     )
     favorite.delete()
 
+def delete_favorite_movie_by_movieid_service(user, movie_id):
+    favorite_movie=selectors.get_favorite_movie_by_movie_id(user, movie_id)
+    if not favorite_movie:
+        return False
+    favorite_movie.delete()
+    return True
+
+
 def get_recommendations_service(user, top_k=40):
     user_profile=build_user_profile(user)
     candidates=get_elasticsearch_recommendations(user, top_k)

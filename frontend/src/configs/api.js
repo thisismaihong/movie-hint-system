@@ -14,10 +14,12 @@ export const endpoints = {
     "movies":"/movies/",
     "movieDetail": (id)=>`/movies/${id}/`,
     "translate_description":(id)=>`/movies/${id}/translate/`,
+    "summarize_description":(id)=>`/movies/${id}/summary/`,
 
     "preferences": "/user/preferences/",
     "favorite":"/favorites/",
     "deleteFavorite":(id)=>`/favorites/${id}/`,
+    "deleteFavoriteByMovieId":"/favorites/movie/",
     "recommendations":"/recommendation/movies/",
 
     "search":"/search/"

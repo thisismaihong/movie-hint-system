@@ -50,6 +50,20 @@ class FavoriteMovieViewSet(GenericViewSet):
         invalidate_recommendation_cache(request.user.id) #hành vi thay đổi thì phải xóa cache cũ
         return Response({"detail":"Đã xóa khỏi danh sách yêu thích"},status=status.HTTP_200_OK)
 
+    @action(detail=False, methods=["delete"], url_path="movie")
+    def delete_by_movie_id(self, request):
+        movie_id=request.query_params.get('movie_id')
+        result=services.delete_favorite_movie_by_movieid_service(request.user, movie_id)
+        if not result:
+            return Response(
+                {"detail": "Phim chưa có trong danh sách yêu thích"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        invalidate_recommendation_cache(request.user.id)
+        return Response(
+            {"detail": "Đã xóa khỏi danh sách yêu thích"},
+            status=status.HTTP_200_OK
+        )
 
 class RecommendationViewSet(GenericViewSet):
     permission_classes = [permissions.IsAuthenticated]
@@ -58,7 +72,7 @@ class RecommendationViewSet(GenericViewSet):
     def list(self, request):
         user_id = request.user.id
         recommendations = get_cached_recommendations(user_id)
-
+        print("CACHE:", recommendations is not None)
         if recommendations is None:
             print("RUNNING ELASTICSEARCH RECOMMENDATION")
             recommendations = get_recommendations_service(

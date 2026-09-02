@@ -3,10 +3,11 @@
 import Image from "next/image";
 import { ArrowLeftOutlined, HeartOutlined, CalendarOutlined, ClockCircleOutlined, GlobalOutlined, UserOutlined, VideoCameraOutlined, HeartFilled } from "@ant-design/icons";
 import { Button, Tag, Tooltip, Typography } from "antd";
-
 import { useRouter } from "next/navigation";
 import useAddFavorite from "@/hooks/favorite/useAddFavorite";
 import { useAuth } from "@/hooks/useAuth";
+import useDeleteFavoriteMovieId from "@/hooks/favorite/useDeleteFavoriteMovieId";
+import { useState } from "react";
 
 const { Title, Text } = Typography;
 
@@ -14,6 +15,26 @@ export default function MovieInfo({ movie }) {
     const router = useRouter();
     const {loading, handleAdd}=useAddFavorite();
     const {isAuthenticated}=useAuth();
+    const {loading: deleteLoading, handleDelete}=useDeleteFavoriteMovieId();
+    const [isFavorite, setIsFavorite] = useState(movie?.is_favorite_movie ?? false);
+
+    const handleAddFavorite=async()=>{
+        const success=await handleAdd(movie.id);
+        if (success){
+            setIsFavorite(true);
+        }
+    }
+
+    const handleDeleteFavorite=async()=>{
+        const success=await handleDelete(movie.id);
+        if (success){
+            setIsFavorite(false);
+        }
+    }
+
+
+
+
 
     const platformLinks = {
         "netflix": "https://www.netflix.com",
@@ -61,35 +82,36 @@ export default function MovieInfo({ movie }) {
                         </div>
 
                         {
-                            movie?.is_favorite_movie ? (
+                            isFavorite ? (
                                 <Button
                                     size="large"
                                     icon={<HeartFilled />}
-                                    disabled
+                                    loading={deleteLoading}
+                                    onClick={handleDeleteFavorite}
                                     className="!rounded-xl !border-0 !bg-pink-600 !text-white"
                                 >
-                                    Đã thêm yêu thích
-                                </Button>
-                            ) : (
-                                <Tooltip
-                                    title={!isAuthenticated ? "Vui lòng đăng nhập để có trải nghiệm trọn vẹn" : ""}
-                                >
-                                    <span>
-                                        <Button
-                                            type="primary"
-                                            size="large"
-                                            icon={<HeartOutlined />}
-                                            loading={loading}
-                                            disabled={!isAuthenticated}
-                                            onClick={() => handleAdd(movie.id)}
-                                            className="!rounded-xl !border-0 !bg-gradient-to-r !from-purple-500 !to-fuchsia-500"
-                                        >
-                                            Yêu thích
-                                        </Button>
-                                    </span>
-                                </Tooltip>
-                            )
-                        }
+                                    Xóa yêu thích
+                                    </Button>
+                                ) : (
+                                    <Tooltip
+                                        title={!isAuthenticated ? "Vui lòng đăng nhập để có trải nghiệm trọn vẹn" : ""}
+                                    >
+                                        <span>
+                                            <Button
+                                                type="primary"
+                                                size="large"
+                                                icon={<HeartOutlined />}
+                                                loading={loading}
+                                                disabled={!isAuthenticated}
+                                                onClick={handleAddFavorite}
+                                                className="!rounded-xl !border-0 !bg-gradient-to-r !from-purple-500 !to-fuchsia-500"
+                                            >
+                                                Yêu thích
+                                            </Button>
+                                        </span>
+                                    </Tooltip>
+                                )
+                            }
                     </div>
 
                     <div className="mt-6 flex flex-wrap gap-3">

@@ -15,4 +15,7 @@ export const deleteFavorite=async(id)=>{
     return response.data;
 }
 
-
+export const deleteFavoriteByMovieId=async(movieId)=>{
+    const response=await api.delete(endpoints.deleteFavoriteByMovieId, {params:{movie_id:movieId}});
+    return response.data;
+}

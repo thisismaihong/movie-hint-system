@@ -124,3 +124,4 @@
 }
 
 ![img_2.png](images/delete_favorite.png) -> 
+![img_3.png](images/delete_favorite_movieid.png) -> 

@@ -24,3 +24,8 @@ export const translateDescription=async(id)=>{
     const response=await api.post(endpoints.translate_description(id));
     return response.data;
 }
+
+export const summarizeDescription=async(id)=>{
+    const response=await api.post(endpoints.summarize_description(id));
+    return response.data;
+}

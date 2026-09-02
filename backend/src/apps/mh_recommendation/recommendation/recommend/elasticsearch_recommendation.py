@@ -41,7 +41,6 @@ def get_elasticsearch_recommendations(user, top_k=TOP_K):
         ],
     )
 
-    print("INDEX COUNT:", es.count(index=INDEX_NAME))
     print("TOP_K:", top_k)
     print("TOTAL HITS:", len(response["hits"]["hits"]))
 

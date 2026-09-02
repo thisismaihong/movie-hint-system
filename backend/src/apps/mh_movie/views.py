@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet, GenericViewSet
 
-from . import services, serializers
+from . import services, serializers, selectors
 from .paginators import MoviePaginator
 from rest_framework import status
 
@@ -47,4 +47,15 @@ class MoviesViewSet(GenericViewSet):
             "movie_id":movie.id,
             "description_en":movie.description_en,
             "description_vn":movie.description_vn,
+        }, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=["post"], url_path="summary", permission_classes=[permissions.IsAuthenticated])
+    def summary(self, request, pk=None):
+        movie = selectors.get_movie_by_id(pk)
+        description_summary = services.summarize_description_service(pk)
+
+        return Response({
+            "movie_id": pk,
+            "description_en": movie.description_en,
+            "description_summary": description_summary,
         }, status=status.HTTP_200_OK)

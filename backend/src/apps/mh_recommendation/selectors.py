@@ -60,6 +60,8 @@ def get_favorite_movies(user, filters: dict):
         )
     return query.distinct()
 
+def get_favorite_movie_by_movie_id(user, movie_id):
+    return FavoriteMovie.objects.filter(user=user, movie_id=movie_id).first()
 
 def is_favorite_movie(user, movie_id):
     return FavoriteMovie.objects.filter(user=user, movie_id=movie_id).exists()

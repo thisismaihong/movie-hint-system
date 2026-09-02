@@ -1,4 +1,6 @@
+from django.core.cache import cache
 from . import selectors
+from .summary.summary_service import summary_movie_description
 from ..mh_recommendation import selectors as recommendation_selectors
 from .translation.translation_service import translate_movie_description
 
@@ -37,3 +39,25 @@ def translate_description_service(movie_id):
     movie.description_vn=description_vn
     movie.save(update_fields=["description_vn"])
     return movie
+
+def summarize_description_service(movie_id):
+    movie=selectors.get_movie_by_id(movie_id)
+    if not movie:
+        return None
+
+    description_en=movie.description_en
+    if not description_en:
+        return ""
+
+    cache_key=f"movie_summary_{movie_id}"
+    cached_summary=cache.get(cache_key)
+    if cached_summary:
+        return cached_summary
+
+    description_summary=summary_movie_description(description_en)
+    cache.set(cache_key, description_summary)
+
+    # from django.core.cache import cache
+    # cache.delete("movie_summary_1")
+    return description_summary
+
