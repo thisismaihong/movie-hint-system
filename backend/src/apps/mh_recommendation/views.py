@@ -101,3 +101,49 @@ class RecommendationViewSet(GenericViewSet):
             many=True
         )
         return self.get_paginated_response(serializer.data)
+
+class FeedbackViewSet(GenericViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def list(self, request):
+        movie_id=request.query_params.get('movie_id')
+        if not movie_id:
+            return Response(
+                {"detail": "Phim không tồn tại."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        feedbacks=services.get_feedbacks_by_movie_service(movie_id)
+        if feedbacks is None:
+            return Response(
+                {"detail": "Phim không tồn tại."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        serializer=serializers.FeedbackOutputSerializer(feedbacks, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        serializer=serializers.FeedbackInputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        feedback=services.create_feedback_service(
+            request.user,
+            serializer.validated_data["movie_id"],
+            serializer.validated_data["content"]
+        )
+        if not feedback:
+            return Response({"detail":"Phim không tồn tại."}, status=status.HTTP_400_BAD_REQUEST)
+
+        result=serializers.FeedbackOutputSerializer(feedback)
+        return Response(result.data, status=status.HTTP_201_CREATED)
+
+    def destroy(self, request, pk=None):
+        deleted=services.delete_feedback_service(request.user, pk)
+        if not deleted:
+            return Response(
+                {"detail": "Feedback không tồn tại hoặc bạn không có quyền xóa."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        return Response(
+            {"detail": "Xóa feedback thành công."},
+            status=status.HTTP_200_OK
+        )

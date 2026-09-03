@@ -8,7 +8,7 @@ export default function useDeleteFavorite(){
     const [deletingId, setDeletingId] = useState(null);
     
     const handleDelete=async(favoriteId)=>{
-        try{
+        try{ 
             setLoading(true);
             setDeletingId(favoriteId);
             const res=await deleteFavorite(favoriteId);

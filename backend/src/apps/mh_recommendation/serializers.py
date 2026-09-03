@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from apps.mh_movie.models import Genre, Country
 from . import selectors
-from .models import Preferences, FavoriteMovie
+from .models import Preferences, FavoriteMovie, Feedback
 from ..mh_movie.serializers import MovieDetailOutputSerializer
 from ..mh_movie import serializers as movie_serializers
 
@@ -110,3 +110,16 @@ class RecommendationOutputSerializer(serializers.Serializer):
     movie = RecommendationSerializer()
     score = serializers.FloatField()
     reason = serializers.CharField(allow_null=True)
+
+class FeedbackInputSerializer(serializers.Serializer):
+    movie_id = serializers.IntegerField()
+    content = serializers.CharField(required=True)
+
+class FeedbackOutputSerializer(serializers.ModelSerializer):
+    movie_id = serializers.IntegerField(source="movie.id", read_only=True)
+    username = serializers.CharField(source="user.username", read_only=True)
+
+    class Meta:
+        model = Feedback
+        fields = ["id", "movie_id", "username", "content", "created_date"]
+

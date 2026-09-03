@@ -49,10 +49,10 @@ class Feedback(models.Model):
     movie=models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='feedbacks')
     content=models.TextField()
     created_date=models.DateTimeField(auto_now_add=True)
-    sentiment=models.CharField(choices=SentimentEnum.choices, max_length=10)
+    sentiment=models.CharField(choices=SentimentEnum.choices, max_length=10, null=True, blank=True)
     class Meta:
         db_table = 'feedback'
-        unique_together = ('user', 'movie')
+        # unique_together = ('user', 'movie')
     def __str__(self):
         return f"{self.user.username} commented on {self.movie} : {self.content}"
 

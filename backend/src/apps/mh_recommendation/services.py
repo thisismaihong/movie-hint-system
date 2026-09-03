@@ -1,7 +1,7 @@
 from django.db import transaction
 
 from . import selectors, managers
-from .models import FavoriteMovie
+from .models import FavoriteMovie, Feedback
 from .recommendation.recommend.user_profile import build_user_profile
 from .recommendation.retrieval.recommendation_context import build_recommendation_context
 from .recommendation.retrieval.recommendation_reason import generate_recommendation_reason
@@ -41,10 +41,35 @@ def delete_favorite_movie_by_movieid_service(user, movie_id):
     favorite_movie.delete()
     return True
 
-
 def get_recommendations_service(user, top_k=40):
     user_profile=build_user_profile(user)
     candidates=get_elasticsearch_recommendations(user, top_k)
     context=build_recommendation_context(user_profile, candidates)
     recommendations=generate_recommendation_reason(context)
     return recommendations
+
+def create_feedback_service(user, movie_id, content):
+    movie = Movie.objects.filter(id=movie_id).first()
+
+    if not movie:
+        return None
+
+    return managers.FeedbackManager.create_feedback(
+        user=user,
+        movie=movie,
+        content=content
+    )
+
+def delete_feedback_service(user, feedback_id):
+    feedback = Feedback.objects.filter(id=feedback_id, user=user).first()
+    if not feedback:
+        return False
+
+    managers.FeedbackManager.delete_feedback(feedback)
+    return True
+
+def get_feedbacks_by_movie_service(movie_id):
+    movie=Movie.objects.filter(id=movie_id).first()
+    if not movie:
+        return None
+    return selectors.get_feedbacks_by_movie(movie_id)

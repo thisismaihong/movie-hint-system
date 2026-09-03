@@ -41,11 +41,11 @@ const items = [
         icon: <TrophyOutlined />,
         label: "Đánh giá của tôi",
     },
-    {
-        key: "/history",
-        icon: <HistoryOutlined />,
-        label: "Lịch sử tìm kiếm",
-    },
+    // {
+    //     key: "/history",
+    //     icon: <HistoryOutlined />,
+    //     label: "Lịch sử tìm kiếm",
+    // },
     {
         key: "/profile",
         icon: <UserOutlined />,

@@ -1,6 +1,6 @@
 from django.db import transaction
 
-from .models import Preferences, PreferenceGenre, PreferenceCountry
+from .models import Preferences, PreferenceGenre, PreferenceCountry, Feedback
 
 
 class PreferencesManager:
@@ -72,3 +72,19 @@ class PreferencesManager:
         ]
         PreferenceCountry.objects.bulk_create(objects)
         return objects
+
+
+class FeedbackManager:
+    @staticmethod
+    @transaction.atomic
+    def create_feedback(user, movie, content):
+        return Feedback.objects.create(
+            user=user,
+            movie=movie,
+            content=content
+        )
+
+    @staticmethod
+    @transaction.atomic
+    def delete_feedback(feedback):
+        feedback.delete()

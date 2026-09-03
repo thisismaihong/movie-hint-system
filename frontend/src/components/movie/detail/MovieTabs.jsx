@@ -46,24 +46,24 @@ export default function MovieTabs({ movie }) {
                             ),
                             children: (
                                 <div className="p-8 text-gray-300">
-                                    Chưa có đánh giá.
+                                    Chưa có đánh giá. 
                                 </div>
                             ),
                         },
 
-                        {
-                            key: "3",
-                            label: (
-                                <span className="px-2 text-base font-medium">
-                                    Phim tương tự
-                                </span>
-                            ),
-                            children: (
-                                <div className="p-8 text-gray-300">
-                                    Chưa có dữ liệu.
-                                </div>
-                            ),
-                        },
+                        // {
+                        //     key: "3",
+                        //     label: (
+                        //         <span className="px-2 text-base font-medium">
+                        //             Phim tương tự
+                        //         </span>
+                        //     ),
+                        //     children: (
+                        //         <div className="p-8 text-gray-300">
+                        //             Chưa có dữ liệu.
+                        //         </div>
+                        //     ),
+                        // },
                     ]}
                 />
 

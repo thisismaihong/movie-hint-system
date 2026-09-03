@@ -1,6 +1,6 @@
 from django.db.models import Prefetch
 
-from .models import Preferences, PreferenceGenre, PreferenceCountry, FavoriteMovie
+from .models import Preferences, PreferenceGenre, PreferenceCountry, FavoriteMovie, Feedback
 from ..mh_movie.models import Movie
 from ..mh_movie.selectors import apply_movie_filters
 from django.db.models import Q
@@ -104,3 +104,9 @@ def filter_recommendations(recommendations, filters):
             )
         ]
     return result
+
+# def get_feedback_by_user_and_movie(user, movie_id):
+#     return Feedback.objects.filter(user=user, movie_id=movie_id).first()
+
+def get_feedbacks_by_movie(movie_id):
+    return Feedback.objects.filter(movie_id=movie_id).select_related("user", "movie").order_by("-created_date")

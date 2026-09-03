@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchOutlined,InfoCircleOutlined } from "@ant-design/icons";
+import { SearchOutlined,InfoCircleOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { Button, Input, Splitter } from "antd";
 
 const MAX_LENGTH = 200;
@@ -55,6 +55,10 @@ export default function SearchDescription({ description, setDescription, onSearc
                             <p className="mt-3 flex items-start gap-2 rounded-xl border border-[#F1DFA8] bg-[#FFF9E8] px-3 py-2.5 text-xs leading-5 text-[#7A6A3A]">
                                 <InfoCircleOutlined className="mt-0.5 shrink-0" />
                                 <span>Lưu ý: Mô tả càng rõ càng tốt và hạn chế sử dụng từ viết tắt để có kết quả chính xác hơn.</span>
+                            </p>
+                            <p className="mt-2 flex items-start gap-2 rounded-xl border border-[#F1DFA8] bg-[#FFF9E8] px-3 py-2.5 text-xs leading-5 text-[#7A6A3A]">
+                                <ClockCircleOutlined className="mt-0.5 shrink-0" />
+                                <span>Vui lòng không rời khỏi trang tìm kiếm. Quá trình tìm kiếm có thể mất khoảng 3 - 5 phút tùy vào tốc độ mạng.</span>
                             </p>
 
                             <div className="mt-3 flex items-center justify-end border-t border-[#E2D9EF] pt-3">

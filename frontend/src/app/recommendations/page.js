@@ -57,6 +57,9 @@ export default function RecommendationPage() {
                                         </span>
                                         bộ phim.
                                     </p>
+                                    <p className="mt-4 rounded-xl border border-yellow-400/20 bg-yellow-400/10 px-4 py-3 text-sm leading-relaxed text-yellow-200">
+                                        <span className="font-medium">Lưu ý:</span> Vui lòng không rời khỏi trang đề xuất. Quá trình đề xuất có thể mất khoảng <span className="font-semibold">3 - 5 phút</span> tùy vào tốc độ mạng.
+                                    </p>
                                 </div>
                             </section>
                             <RecommendationGrid

@@ -22,7 +22,10 @@ export const endpoints = {
     "deleteFavoriteByMovieId":"/favorites/movie/",
     "recommendations":"/recommendation/movies/",
 
-    "search":"/search/"
+    "search":"/search/",
+
+    "feedbacks":"/feedbacks/",
+    "delete_feedback":(id)=>`/feedbacks/${id}/`
     
 };
 
