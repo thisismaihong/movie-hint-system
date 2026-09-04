@@ -14,6 +14,6 @@ export const createFeedback=async(payload)=>{
 };
 
 export const deleteFeedback=async(id)=>{
-    const response=await api.delete(endpoints.deleteFavorite(id));
+    const response=await api.delete(endpoints.deleteFeedback(id));
     return response.data;
 }

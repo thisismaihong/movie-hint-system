@@ -4,8 +4,12 @@ import { Tabs } from "antd";
 
 import MovieOverview from "./MovieOverview";
 import MovieSummary from "./MovieSummary";
+import MovieFeedbacks from "./MovieFeedbacks";
+import { useAuth } from "@/hooks/useAuth";
+import { LoginOutlined } from "@ant-design/icons";
 
 export default function MovieTabs({ movie }) {
+    const {isAuthenticated}=useAuth();
     return (
         <section className="mt-12">
 
@@ -44,9 +48,17 @@ export default function MovieTabs({ movie }) {
                                     Đánh giá
                                 </span>
                             ),
-                            children: (
-                                <div className="p-8 text-gray-300">
-                                    Chưa có đánh giá. 
+                            children: isAuthenticated ? (
+                                <MovieFeedbacks movieId={movie.id} />
+                            ) : (
+                                <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-purple-500/20 bg-purple-500/5 p-8 text-center">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-500/15 text-xl text-purple-400">
+                                        <LoginOutlined />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-semibold text-white">Bạn chưa đăng nhập</p>
+                                        <p className="mt-1 text-sm text-gray-400">Vui lòng đăng nhập để đánh giá phim.</p>
+                                    </div>
                                 </div>
                             ),
                         },

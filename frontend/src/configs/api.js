@@ -25,7 +25,7 @@ export const endpoints = {
     "search":"/search/",
 
     "feedbacks":"/feedbacks/",
-    "delete_feedback":(id)=>`/feedbacks/${id}/`
+    "deleteFeedback":(id)=>`/feedbacks/${id}/`
     
 };
 
