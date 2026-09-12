@@ -1,4 +1,4 @@
-from rest_framework import permissions, status
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet, GenericViewSet
@@ -9,9 +9,10 @@ from .services import get_recommendations_service
 from ..mh_recommendation.recommendation.recommend.user_profile import build_user_profile
 from ..mh_movie.paginators import MoviePaginator
 from ..mh_recommendation.recommendation.cache import get_cached_recommendations, set_cached_recommendations
+from ..mh_oauth.permissions import IsUser
 
 class UserPreferenceViewSet(ViewSet):
-    @action(detail=False, methods=['get','put'], permission_classes=[permissions.IsAuthenticated], url_path="preferences",)
+    @action(detail=False, methods=['get','put'], permission_classes=[IsUser], url_path="preferences",)
     def preferences(self, request):
         if request.method == 'GET':
             preferences=services.get_preferences_service(request.user)
@@ -26,7 +27,7 @@ class UserPreferenceViewSet(ViewSet):
         return Response(output.data)
 
 class FavoriteMovieViewSet(GenericViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsUser]
     pagination_class = MoviePaginator
     def list(self, request):
         filters={
@@ -66,7 +67,7 @@ class FavoriteMovieViewSet(GenericViewSet):
         )
 
 class RecommendationViewSet(GenericViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsUser]
     pagination_class = MoviePaginator
 
     def list(self, request):
@@ -103,7 +104,7 @@ class RecommendationViewSet(GenericViewSet):
         return self.get_paginated_response(serializer.data)
 
 class FeedbackViewSet(GenericViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsUser]
 
     def list(self, request):
         movie_id=request.query_params.get('movie_id')

@@ -22,7 +22,7 @@ export default function useDeleteFavorite(){
             console.log(error);
 
             notification.error({
-                message: "Lỗi hủy yêu thích!",
+                title: "Lỗi hủy yêu thích!",
                 description:
                     error.response?.data?.detail ??
                     JSON.stringify(error.response?.data),

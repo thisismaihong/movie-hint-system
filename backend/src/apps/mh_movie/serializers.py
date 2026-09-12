@@ -1,3 +1,5 @@
+from datetime import date
+
 from rest_framework import serializers
 from .models import Genre, Country, Movie, MovieGenre, MovieCountry, MovieActor, MovieDirector, MoviePlatform
 
@@ -135,3 +137,44 @@ class MovieDetailOutputSerializer(serializers.ModelSerializer):
         if obj.poster:
             return obj.poster.url
         return None
+
+class MovieSuggestionInputSerializer(serializers.Serializer):
+    title_vn=serializers.CharField(required=True, allow_blank=False, allow_null=False)
+    title_en=serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    country=serializers.CharField(required=True, allow_blank=False, allow_null=False)
+    description_vn=serializers.CharField(required=True, allow_blank=False, allow_null=False)
+    release_year=serializers.IntegerField(required=True, allow_null=False)
+
+    def validate_release_year(self, value):
+        if value < 0 or value > date.today().year:
+            raise serializers.ValidationError(
+                "Năm phát hành không hợp lệ."
+            )
+        return value
+
+class MovieSuggestionOutputSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = [
+            "id",
+            "title_vn",
+            "title_en",
+            "description_vn",
+            "release_year",
+            "status",
+        ]
+
+class PendingMovieOutputSerializer(serializers.ModelSerializer):
+    suggested_by=serializers.CharField(source="suggested_by.username")
+    class Meta:
+        model = Movie
+        fields = [
+            "id",
+            "title_vn",
+            "title_en",
+            "description_vn",
+            "release_year",
+            "status",
+            "suggested_by",
+            "date_added",
+        ]

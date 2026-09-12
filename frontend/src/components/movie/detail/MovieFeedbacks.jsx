@@ -151,15 +151,15 @@ export default function MovieFeedbacks({ movieId }) {
 
                         {visibleCount < feedbacks.length && (
                             <div className="mt-4 flex justify-center">
-    <Button
-        type="default"
-        size="small"
-        onClick={handleLoadMore}
-        className="!rounded-lg !border-purple-400/30 !bg-purple-500/10 !px-4 !text-xs !text-purple-300 hover:!border-purple-400/50 hover:!bg-purple-500/20 hover:!text-purple-200"
-    >
-        Xem thêm ... 
-    </Button>
-</div>
+                                <Button
+                                    type="default"
+                                    size="small"
+                                    onClick={handleLoadMore}
+                                    className="!rounded-lg !border-purple-400/30 !bg-purple-500/10 !px-4 !text-xs !text-purple-300 hover:!border-purple-400/50 hover:!bg-purple-500/20 hover:!text-purple-200"
+                                >
+                                    Xem thêm ... 
+                                </Button>
+                            </div>
                         )}
                     </>
                 )}

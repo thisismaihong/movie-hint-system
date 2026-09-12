@@ -90,6 +90,7 @@ class LoginOutputSerializer(serializers.Serializer):
     refresh_token=serializers.CharField()
     token_type=serializers.CharField()
     expires=serializers.IntegerField()
+    role=serializers.CharField()
 
 class UpdateProfileInputSerializer(serializers.Serializer):
     first_name = serializers.CharField(required=False)

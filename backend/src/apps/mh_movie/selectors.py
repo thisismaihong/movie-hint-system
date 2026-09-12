@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Prefetch, Q
 from rest_framework.exceptions import NotFound
 
+from .enums import MovieStatusEnum
 from .models import Genre, Country, Movie, MovieGenre, MovieCountry, Actor, MovieActor, MovieDirector, MoviePlatform
 from ..mh_recommendation.models import FavoriteMovie
 
@@ -69,6 +70,7 @@ def apply_movie_filters(query, filter: dict):
 
     return query.distinct()
 
-
+def get_pending_movies():
+    return Movie.objects.filter(status=MovieStatusEnum.PENDING).select_related("suggested_by").order_by("-date_added")
 
 

@@ -47,15 +47,14 @@ def login_service(data):
     user=authenticate(username=username, password=password)
     if user is None:
         raise AuthenticationFailed("Username hoặc password không đúng.") #401
-    if user.role != "user":
-        raise PermissionDenied("Tài khoản không được phép đăng nhập.") #403
 
     refresh=RefreshToken.for_user(user)
     return {
         "access_token": str(refresh.access_token),
         "refresh_token": str(refresh),
         "token_type": "Bearer",
-        "expires":3600
+        "expires":3600,
+        "role":user.role
     }
 
 def profile_service(user):

@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 from elasticsearch import Elasticsearch
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework.viewsets import GenericViewSet
@@ -12,13 +11,14 @@ from .elasticsearch.rag.search_reason import generate_search_reason
 from .elasticsearch.retrieval.search_movies import search_movies
 from .elasticsearch.retrieval.embed_query import load_embedding_model, embed_query
 from .serializers import SearchOutputSerializer, SearchInputSerializer
+from ..mh_oauth.permissions import IsUser
 
 load_dotenv()
 ELASTICSEARCH_URL=os.getenv("ELASTICSEARCH_URL")
 TOP_K=20
 
 class MovieSearchView(GenericViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsUser]
 
     @extend_schema(
         request=SearchInputSerializer,

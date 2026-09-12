@@ -68,7 +68,7 @@ export default function SearchDescription({ description, setDescription, onSearc
                                     disabled={!description.trim()}
                                     icon={<SearchOutlined />}
                                     onClick={handleSubmit}
-                                    className="!h-11 !rounded-full !border-none !bg-[#B9A7E8] !px-6 !font-semibold !text-white hover:!bg-[#A995DC] disabled:!bg-[#E8E3EF] disabled:!text-[#AAA3B3]"
+                                    className="!h-11 !rounded-full !border-none !bg-gradient-to-r !from-[#7C3AED] !to-[#A855F7] !px-6 !font-semibold !text-white !shadow-lg !shadow-purple-500/20 hover:!from-[#6D28D9] hover:!to-[#9333EA]"
                                 >
                                     Tìm phim
                                 </Button>

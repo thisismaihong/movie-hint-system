@@ -4,6 +4,7 @@ from cloudinary.models import CloudinaryField
 
 from . import managers
 from .enums import AccountStatusEnum, RoleEnum, RegistrationEnum, GenderEnum
+from django.conf import settings
 
 
 class User(AbstractUser, PermissionsMixin):

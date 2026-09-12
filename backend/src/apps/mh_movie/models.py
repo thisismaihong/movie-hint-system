@@ -1,6 +1,9 @@
 from cloudinary.models import CloudinaryField
 from django.db import models
 
+from .enums import MovieStatusEnum
+from django.conf import settings
+
 class Genre(models.Model):
     name = models.CharField(max_length=100, unique=True)
     class Meta:
@@ -54,6 +57,14 @@ class Movie(models.Model):
     duration=models.CharField(max_length=50, null=True, blank=True)
     description_en=models.TextField(blank=True)
     description_vn=models.TextField(blank=True)
+
+    status=models.CharField(choices=MovieStatusEnum.choices, max_length=20, default=MovieStatusEnum.APPROVED)
+    admin_note=models.TextField(blank=True, null=True)
+    reviewed_date=models.DateTimeField(blank=True, null=True)
+    updated_date=models.DateTimeField(blank=True, null=True)
+
+    suggested_by=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='suggested_movies')
+
     class Meta:
         db_table = 'movie'
         ordering = ['-release_year','title_en']

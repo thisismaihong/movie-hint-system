@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { LoginOutlined } from "@ant-design/icons";
 
 export default function MovieTabs({ movie }) {
-    const {isAuthenticated}=useAuth();
+    const {isAuthenticated, user}=useAuth();
     return (
         <section className="mt-12">
 
@@ -41,6 +41,7 @@ export default function MovieTabs({ movie }) {
                             ),
                         },
 
+                    ...(user?.role === "user" ? [
                         {
                             key: "2",
                             label: (
@@ -62,6 +63,7 @@ export default function MovieTabs({ movie }) {
                                 </div>
                             ),
                         },
+                    ] : []),
 
                         // {
                         //     key: "3",

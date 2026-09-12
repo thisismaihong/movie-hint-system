@@ -30,7 +30,7 @@ export default function Header() {
 
                     {isAuthenticated ? (
                         <>
-                            <Link href="/profile" className="flex items-center gap-2 rounded-full px-3 py-2 transition hover:bg-purple-50">
+                            <Link href="/" className="flex items-center gap-2 rounded-full px-3 py-2 transition hover:bg-purple-50">
                                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 text-sm font-bold text-white shadow-sm">
                                     {user?.first_name
                                         ?.charAt(0)

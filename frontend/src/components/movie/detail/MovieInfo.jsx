@@ -14,7 +14,7 @@ const { Title, Text } = Typography;
 export default function MovieInfo({ movie }) {
     const router = useRouter();
     const {loading, handleAdd}=useAddFavorite();
-    const {isAuthenticated}=useAuth();
+    const {isAuthenticated, user}=useAuth();
     const {loading: deleteLoading, handleDelete}=useDeleteFavoriteMovieId();
     const [isFavorite, setIsFavorite] = useState(movie?.is_favorite_movie ?? false);
 
@@ -81,7 +81,7 @@ export default function MovieInfo({ movie }) {
 
                         </div>
 
-                        {
+                        {user?.role==="user" &&(
                             isFavorite ? (
                                 <Button
                                     size="large"
@@ -111,7 +111,7 @@ export default function MovieInfo({ movie }) {
                                         </span>
                                     </Tooltip>
                                 )
-                            }
+                            )}
                     </div>
 
                     <div className="mt-6 flex flex-wrap gap-3">

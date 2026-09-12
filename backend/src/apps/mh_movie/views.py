@@ -6,6 +6,8 @@ from rest_framework.viewsets import ViewSet, GenericViewSet
 from . import services, serializers, selectors
 from .paginators import MoviePaginator
 from rest_framework import status
+from ..mh_oauth.permissions import IsUser, IsAdmin
+
 
 class MoviesViewSet(GenericViewSet):
     permission_classes = [permissions.AllowAny]
@@ -59,3 +61,22 @@ class MoviesViewSet(GenericViewSet):
             "description_en": movie.description_en,
             "description_summary": description_summary,
         }, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["post"], url_path="suggest", permission_classes=[IsUser])
+    def suggest(self, request):
+        serializer=serializers.MovieSuggestionInputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        movie=services.suggest_movie_service(request.user, serializer.validated_data)
+        result=serializers.MovieSuggestionOutputSerializer(movie)
+        return Response(
+            result.data,
+            status=status.HTTP_201_CREATED,
+        )
+
+    @action(detail=False, methods=["get"], url_path="pending", permission_classes=[IsAdmin])
+    def pending(self, request):
+        movies=services.get_pending_movies_service()
+        page=self.paginate_queryset(movies)
+        serializer=serializers.PendingMovieOutputSerializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+

@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 import { HomeOutlined, StarOutlined, SearchOutlined, HeartOutlined, TrophyOutlined, 
-    HistoryOutlined, UserOutlined, MenuFoldOutlined, MenuUnfoldOutlined , PlaySquareOutlined } from "@ant-design/icons";
+    HistoryOutlined, UserOutlined, MenuFoldOutlined, MenuUnfoldOutlined , PlaySquareOutlined,
+     PlusCircleOutlined, FileSearchOutlined} from "@ant-design/icons";
 
 import { Button, Menu } from "antd";
 import { useAuth } from "@/hooks/useAuth";
@@ -18,38 +19,44 @@ const items = [
     },
     {
         key: "/movies",
-        icon: <PlaySquareOutlined  />,
+        icon: <PlaySquareOutlined />,
         label: "Kho phim của MH",
     },
     {
         key: "/recommendations",
         icon: <StarOutlined />,
         label: "Phim đề xuất",
+        userOnly: true,
     },
     {
         key: "/search",
         icon: <SearchOutlined />,
         label: "Tìm kiếm thông minh",
+        userOnly: true,
     },
     {
         key: "/favorites",
         icon: <HeartOutlined />,
         label: "Yêu thích",
+        userOnly: true,
     },
     {
-        key: "/ratings",
-        icon: <TrophyOutlined />,
-        label: "Đánh giá của tôi",
+        key:"/add",
+        icon: <PlusCircleOutlined /> ,
+        label:"Bổ sung phim",
+        userOnly:true,
     },
-    // {
-    //     key: "/history",
-    //     icon: <HistoryOutlined />,
-    //     label: "Lịch sử tìm kiếm",
-    // },
+    {
+        key:"/review",
+        icon: <FileSearchOutlined /> ,
+        label:"Phim cần duyệt",
+        adminOnly: true,
+    },
     {
         key: "/profile",
         icon: <UserOutlined />,
         label: "Hồ sơ",
+        userOnly: true,
     },
 ];
 
@@ -64,9 +71,23 @@ export default function Sidebar() {
         "/movies"
     ]
 
-    const {isAuthenticated, isInitializing} = useAuth();
+    const {isAuthenticated, isInitializing, user} = useAuth();
     const auth = useAuth();
     console.log(auth);
+
+    const visibleItems = items
+        .filter((item) => {
+            if (item.userOnly) {
+                return user?.role === "user";
+            }
+
+            if (item.adminOnly) {
+                return user?.role === "admin";
+            }
+
+            return true;
+        })
+        .map(({ userOnly, adminOnly, ...item }) => item);
 
     const handleMenuClick = ({ key }) => {
         if (isInitializing) return;
@@ -113,7 +134,7 @@ export default function Sidebar() {
                 theme="dark"
                 inlineCollapsed={collapsed}
                 selectedKeys={[pathname]}
-                items={items}
+                items={visibleItems}
                 onClick={handleMenuClick}
                 className="!bg-transparent"
             />
