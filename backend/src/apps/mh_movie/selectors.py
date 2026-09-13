@@ -70,7 +70,8 @@ def apply_movie_filters(query, filter: dict):
 
     return query.distinct()
 
-def get_pending_movies():
-    return Movie.objects.filter(status=MovieStatusEnum.PENDING).select_related("suggested_by").order_by("-date_added")
+def get_suggested_movies():
+    return Movie.objects.filter(suggested_by__isnull=False).select_related("suggested_by").prefetch_related("movie_countries__country").order_by("-date_added")
 
-
+def get_suggested_movie_by_id(movie_id):
+    return Movie.objects.select_related("suggested_by").prefetch_related("movie_countries__country").filter(id=movie_id, suggested_by__isnull=False).first()

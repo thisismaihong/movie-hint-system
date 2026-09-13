@@ -73,10 +73,24 @@ class MoviesViewSet(GenericViewSet):
             status=status.HTTP_201_CREATED,
         )
 
-    @action(detail=False, methods=["get"], url_path="pending", permission_classes=[IsAdmin])
-    def pending(self, request):
-        movies=services.get_pending_movies_service()
+    @action(detail=False, methods=["get"], url_path="suggested", permission_classes=[IsAdmin])
+    def suggested(self, request):
+        movies=services.get_suggested_movies_service()
         page=self.paginate_queryset(movies)
-        serializer=serializers.PendingMovieOutputSerializer(page, many=True)
+        serializer=serializers.SuggestedMovieOutputSerializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 
+    @action(detail=True, methods=["get"], url_path="suggested", permission_classes=[IsAdmin])
+    def suggested_detail(self, request, pk=None):
+        movie=services.get_suggested_movie_detail_service(pk)
+        serializer=serializers.SuggestedMovieOutputSerializer(movie)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["post"], url_path="suggested/approve", permission_classes=[IsAdmin])
+    def approve_suggested(self, request, pk=None):
+        serializer=serializers.ApproveMovieSuggestionInputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        movie=services.approve_movie_suggestion_service(pk, serializer.validated_data)
+        result=serializers.MovieDetailOutputSerializer(movie)
+
+        return Response(result.data, status=status.HTTP_200_OK)

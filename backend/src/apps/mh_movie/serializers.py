@@ -1,5 +1,4 @@
 from datetime import date
-
 from rest_framework import serializers
 from .models import Genre, Country, Movie, MovieGenre, MovieCountry, MovieActor, MovieDirector, MoviePlatform
 
@@ -141,7 +140,7 @@ class MovieDetailOutputSerializer(serializers.ModelSerializer):
 class MovieSuggestionInputSerializer(serializers.Serializer):
     title_vn=serializers.CharField(required=True, allow_blank=False, allow_null=False)
     title_en=serializers.CharField(required=False, allow_blank=True, allow_null=True)
-    country=serializers.CharField(required=True, allow_blank=False, allow_null=False)
+    country=serializers.ListField(required=True, allow_empty=False, child=serializers.CharField(allow_blank=False, allow_null=False))
     description_vn=serializers.CharField(required=True, allow_blank=False, allow_null=False)
     release_year=serializers.IntegerField(required=True, allow_null=False)
 
@@ -164,17 +163,68 @@ class MovieSuggestionOutputSerializer(serializers.ModelSerializer):
             "status",
         ]
 
-class PendingMovieOutputSerializer(serializers.ModelSerializer):
-    suggested_by=serializers.CharField(source="suggested_by.username")
+class SuggestedMovieOutputSerializer(serializers.ModelSerializer):
+    suggested_by = serializers.CharField(
+        source="suggested_by.username"
+    )
+    country = serializers.SerializerMethodField()
+
     class Meta:
         model = Movie
         fields = [
             "id",
             "title_vn",
             "title_en",
+            "country",
             "description_vn",
             "release_year",
             "status",
             "suggested_by",
             "date_added",
         ]
+
+    def get_country(self, obj):
+        return [
+            movie_country.country.name
+            for movie_country in obj.movie_countries.all()
+        ]
+
+class ApproveMovieSuggestionInputSerializer(serializers.Serializer):
+    description_en=serializers.CharField(required=True, allow_blank=False, allow_null=False)
+    title_en=serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    poster=serializers.ImageField(required=False, allow_null=True)
+    age_rating=serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    duration=serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    admin_note=serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    genres = serializers.ListField(
+        required=True,
+        allow_empty=False,
+        child=serializers.CharField(
+            allow_blank=False,
+            allow_null=False,
+        ),
+    )
+    actors = serializers.ListField(
+        required=True,
+        allow_empty=False,
+        child=serializers.CharField(
+            allow_blank=False,
+            allow_null=False,
+        ),
+    )
+    directors = serializers.ListField(
+        required=True,
+        allow_empty=False,
+        child=serializers.CharField(
+            allow_blank=False,
+            allow_null=False,
+        ),
+    )
+    platforms = serializers.ListField(
+        required=False,
+        allow_empty=True,
+        child=serializers.CharField(
+            allow_blank=False,
+            allow_null=False,
+        ),
+    )

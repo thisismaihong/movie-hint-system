@@ -41,7 +41,7 @@ const items = [
         userOnly: true,
     },
     {
-        key:"/add",
+        key:"/suggestion",
         icon: <PlusCircleOutlined /> ,
         label:"Bổ sung phim",
         userOnly:true,

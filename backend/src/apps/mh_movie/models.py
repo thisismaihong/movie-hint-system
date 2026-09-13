@@ -48,8 +48,8 @@ class Director(models.Model):
 
 
 class Movie(models.Model):
-    title_en = models.CharField(max_length=200)
-    title_vn = models.CharField(max_length=200, blank=True)
+    title_en = models.CharField(max_length=200, null=True, blank=True)
+    title_vn = models.CharField(max_length=200, null=True, blank=True)
     poster=CloudinaryField("poster", null=True, blank=True)
     date_added=models.DateTimeField(auto_now_add=True)
     release_year=models.PositiveSmallIntegerField()

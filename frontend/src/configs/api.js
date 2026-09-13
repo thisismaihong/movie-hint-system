@@ -25,7 +25,12 @@ export const endpoints = {
     "search":"/search/",
 
     "feedbacks":"/feedbacks/",
-    "deleteFeedback":(id)=>`/feedbacks/${id}/`
+    "deleteFeedback":(id)=>`/feedbacks/${id}/`,
+
+    "createSuggestion":"/movies/suggest/",
+    "listSuggestions":"/movies/suggested/",
+    "detailSuggestion":(id)=>`/movies/${id}/suggested/`,
+    "approveSuggestion":(id)=>`/movies/${id}/suggested/approve/`
     
 };
 
