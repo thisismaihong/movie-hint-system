@@ -228,3 +228,25 @@ class ApproveMovieSuggestionInputSerializer(serializers.Serializer):
             allow_null=False,
         ),
     )
+
+class RejectMovieSuggestionInputSerializer(serializers.Serializer):
+    admin_note=serializers.CharField(required=True, allow_blank=False, allow_null=False)
+
+class MySuggestedMovieOutputSerializer(serializers.ModelSerializer):
+    country=serializers.SerializerMethodField()
+
+    class Meta:
+        model = Movie
+        fields = [
+            "id",
+            "title_vn",
+            "country",
+            "date_added",
+            "status",
+        ]
+
+    def get_country(self, obj):
+        return [
+            movie_country.country.name
+            for movie_country in obj.movie_countries.all()
+        ]

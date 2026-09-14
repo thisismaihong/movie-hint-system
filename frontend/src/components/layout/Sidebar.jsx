@@ -47,6 +47,12 @@ const items = [
         userOnly:true,
     },
     {
+        key:"/my-suggestions",
+        icon: <HistoryOutlined  /> ,
+        label:"Lịch sử bổ sung phim",
+        userOnly:true,
+    },
+    {
         key:"/review",
         icon: <FileSearchOutlined /> ,
         label:"Phim cần duyệt",

@@ -27,8 +27,11 @@ def get_all_countries():
 
 def get_movies(filters=None):
     filters = filters or {}
-    query=base_movie_query()
-    query=apply_movie_filters(query, filters)
+
+    query = base_movie_query()
+    query = query.filter(status=MovieStatusEnum.APPROVED)
+    query = apply_movie_filters(query, filters)
+
     return query.order_by("-release_year", "title_en")
 
 def base_movie_query():
@@ -42,7 +45,11 @@ def base_movie_query():
 
 def get_movie_by_id(movie_id: int):
     try:
-        return base_movie_query().get(pk=movie_id)
+        return (
+            base_movie_query()
+            .filter(status=MovieStatusEnum.APPROVED)
+            .get(pk=movie_id)
+        )
     except Movie.DoesNotExist:
         raise NotFound("Không tìm thấy phim.")
 
@@ -75,3 +82,6 @@ def get_suggested_movies():
 
 def get_suggested_movie_by_id(movie_id):
     return Movie.objects.select_related("suggested_by").prefetch_related("movie_countries__country").filter(id=movie_id, suggested_by__isnull=False).first()
+
+def get_my_suggested_movies(user):
+    return Movie.objects.filter(suggested_by=user).prefetch_related("movie_countries__country").order_by("-date_added")

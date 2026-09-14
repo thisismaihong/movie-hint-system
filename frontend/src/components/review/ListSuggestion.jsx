@@ -44,6 +44,7 @@ export default function ListSuggestion({
                 <Button
                     type="primary"
                     size="small"
+                    onClick={()=>router.push(`/review/${suggestion.id}`)}
                     className="!h-8 !rounded-lg !border-none !bg-[#E9A9C4] !px-3 !text-xs !font-semibold !text-white hover:!bg-[#DE91B1]"
                 >
                     Bắt đầu duyệt

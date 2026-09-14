@@ -28,10 +28,12 @@ export const endpoints = {
     "deleteFeedback":(id)=>`/feedbacks/${id}/`,
 
     "createSuggestion":"/movies/suggest/",
+    "mySuggestion":"/movies/my-suggestions/",
+
     "listSuggestions":"/movies/suggested/",
     "detailSuggestion":(id)=>`/movies/${id}/suggested/`,
-    "approveSuggestion":(id)=>`/movies/${id}/suggested/approve/`
-    
+    "approveSuggestion":(id)=>`/movies/${id}/suggested/approve/`,
+    "rejectSuggestion":(id)=>`/movies/${id}/suggested/reject/`,
 };
 
 const axiosInstance = axios.create({

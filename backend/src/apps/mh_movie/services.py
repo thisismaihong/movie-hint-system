@@ -198,5 +198,30 @@ def approve_movie_suggestion_service(movie_id, data):
 
     return movie
 
+@transaction.atomic
+def reject_movie_suggestion_service(movie_id, data):
+    movie=selectors.get_suggested_movie_by_id(movie_id)
+    if movie is None:
+        raise NotFound("Không tìm thấy phim đề xuất.")
 
+    if movie.status != MovieStatusEnum.PENDING:
+        raise ValidationError({"status":"Phim đề xuất bổ sung này không ở trạng thái chờ duyệt."})
+
+    movie.admin_note=data.get("admin_note")
+    movie.status=MovieStatusEnum.REJECTED
+    movie.reviewed_date = datetime.today()
+    movie.updated_date = datetime.today()
+    movie.save()
+    return movie
+
+@transaction.atomic
+def delete_rejected_movie_suggestion_service(movie_id):
+    movie=selectors.get_suggested_movie_by_id(movie_id)
+    if movie is None:
+        raise NotFound("Không tìm thấy phim đề xuất.")
+
+    if movie.status != MovieStatusEnum.REJECTED:
+        raise ValidationError({"status":"Phim đề xuất bổ sung này không ở trạng thái bị từ chối."})
+
+    movie.delete()
 
