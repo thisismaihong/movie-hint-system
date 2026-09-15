@@ -31,7 +31,13 @@ export default function SuggestionDetail({ id }) {
     };
 
     const formatDate = (date) => {
-        return new Date(date).toLocaleString("vi-VN");
+        if (!date) return "—";
+
+        const [datePart, timePart] = date.split("T");
+        const [year, month, day] = datePart.split("-");
+        const [hour, minute] = timePart.split(":");
+
+        return `${hour}:${minute} ${day}/${month}/${year}`;
     };
 
     if (loading) {

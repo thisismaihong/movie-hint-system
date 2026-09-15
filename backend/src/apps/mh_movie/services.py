@@ -225,3 +225,11 @@ def delete_rejected_movie_suggestion_service(movie_id):
 
     movie.delete()
 
+def get_my_suggested_movie_detail_service(user, movie_id):
+    movie=selectors.get_my_suggested_movie_by_id(user, movie_id)
+    if movie is None:
+        raise NotFound("Không tìm thấy phim đề xuất.")
+
+    return movie
+
+

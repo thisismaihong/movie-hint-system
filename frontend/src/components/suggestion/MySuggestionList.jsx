@@ -21,11 +21,12 @@ const statusConfig = {
 };
 
 const formatDate = (date) => {
-    return new Date(date).toLocaleDateString("vi-VN", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-    });
+    if (!date) return "—";
+
+    const [datePart] = date.split("T");
+    const [year, month, day] = datePart.split("-");
+
+    return `${day}/${month}/${year}`;
 };
 
 export default function MySuggestionList({ activeStatus = "PENDING" }) {

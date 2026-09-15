@@ -125,4 +125,8 @@ class MoviesViewSet(GenericViewSet):
 
         return self.get_paginated_response(serializer.data)
 
-
+    @action(detail=True, methods=["get"], url_path="my-suggestions", permission_classes=[IsUser])
+    def my_suggestion_detail(self, request, pk=None):
+        movie=services.get_my_suggested_movie_detail_service(request.user, pk)
+        serializer=serializers.MySuggestedMovieDetailOutputSerializer(movie)
+        return Response(serializer.data, status=status.HTTP_200_OK)

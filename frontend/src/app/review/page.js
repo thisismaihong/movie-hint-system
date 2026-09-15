@@ -16,6 +16,7 @@ export default function ReviewPage() {
         suggestions,
         loading,
         error,
+        fetchSuggestions
     } = useSuggestions();
 
     const filteredSuggestions = suggestions.filter(
@@ -51,6 +52,7 @@ export default function ReviewPage() {
                     <ListSuggestion
                         suggestions={filteredSuggestions}
                         loading={loading}
+                        onDeleteSuccess={fetchSuggestions}
                     />
                 </div>
 

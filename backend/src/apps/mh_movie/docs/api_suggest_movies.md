@@ -102,6 +102,34 @@
 
 ![img.png](images/my_suggestions.png)
 
+
+## Chi tiết phim đề xuất của 1 user
+1. Mô tả:
+- Đây là api dùng cho mục đích xem thông tin chi tiết phim bổ sung của 1 user 
+
+2. Endpoint - Method:
+- GET http://127.0.0.1:8000/api/movies/3208/my-suggestions/
+
+3. Input/output data:
+- Output:
+{
+    "id": 3208,
+    "title_vn": "Yêu em",
+    "title_en": "The Best Thing",
+    "country": [
+        "Trung Quốc"
+    ],
+    "description_vn": "Bộ phim \"Yêu Em\" (The Best Thing) xoay quanh mối tình chữa lành giữa Thẩm Tích Phàm, nữ quản lý khách sạn bị mất ngủ kinh niên, và Hà Tô Diệp, một bác sĩ Đông y dịu dàng. Sự chăm sóc tận tình của bác sĩ Hà tại phòng khám đã giúp Tích Phàm vượt qua bóng đen quá khứ và sưởi ấm trái tim cô. Bạn có thể tìm hiểu thêm thông tin chi tiết về bộ phim trên các nền tảng trực tuyến.",
+    "release_year": 2025,
+    "status": "APPROVED",
+    "date_added": "2026-09-13T15:18:26.319095Z",
+    "admin_note": "Không có ghi chú",
+    "reviewed_date": "2026-09-14T15:37:00.334691Z"
+}
+
+![img.png](images/my_suggestion_detail.png)
+
+
 ## Danh sách phim cần phê duyệt
 1. Mô tả:
 - Đây là api dùng cho mục đích hiển thị danh sách phim được user để xuất và cần phê duyệt

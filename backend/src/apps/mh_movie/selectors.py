@@ -85,3 +85,6 @@ def get_suggested_movie_by_id(movie_id):
 
 def get_my_suggested_movies(user):
     return Movie.objects.filter(suggested_by=user).prefetch_related("movie_countries__country").order_by("-date_added")
+
+def get_my_suggested_movie_by_id(user,movie_id):
+    return Movie.objects.filter(id=movie_id, suggested_by=user).prefetch_related("movie_countries__country").first()

@@ -11,6 +11,11 @@ export const getMySuggestion=async()=>{
     return response.data;
 }
 
+export const getMySuggestionDetail=async(id)=>{
+    const response=await api.get(endpoints.mySuggestionDetail(id));
+    return response.data;
+}
+
 export const getSuggestions=async()=>{
     const response=await api.get(endpoints.listSuggestions);
     return response.data;

@@ -29,6 +29,7 @@ export const endpoints = {
 
     "createSuggestion":"/movies/suggest/",
     "mySuggestion":"/movies/my-suggestions/",
+    "mySuggestionDetail":(id)=>`/movies/${id}/my-suggestions/`,
 
     "listSuggestions":"/movies/suggested/",
     "detailSuggestion":(id)=>`/movies/${id}/suggested/`,

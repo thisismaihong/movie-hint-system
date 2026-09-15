@@ -2,12 +2,16 @@
 
 import { Button, Empty, Spin, Tag } from "antd";
 import { useRouter } from "next/navigation";
+import DeleteSuggestionModal from "./DeleteSuggestionModal";
+import { useState } from "react";
 
 export default function ListSuggestion({
     suggestions = [],
     loading = false,
+    onDeleteSuccess,
 }) {
     const router = useRouter();
+    const [selectedSuggestion, setSelectedSuggestion] = useState(null);
 
     const getStatusTag = (status) => {
         const statusConfig = {
@@ -34,8 +38,13 @@ export default function ListSuggestion({
     };
 
     const formatDate = (date) => {
-        return new Date(date).toLocaleDateString("vi-VN");
-    };
+        if (!date) return "—";
+
+        const [datePart] = date.split("T");
+        const [year, month, day] = datePart.split("-");
+
+        return `${day}/${month}/${year}`;
+    }; 
 
     const getAction = (suggestion) => {
         const { status } = suggestion;
@@ -70,9 +79,10 @@ export default function ListSuggestion({
                 <Button
                     danger
                     size="small"
+                    onClick={() => setSelectedSuggestion(suggestion)}
                     className="!h-8 !rounded-lg !px-3 !text-xs !font-semibold"
                 >
-                    Xóa
+                    Xóa 
                 </Button>
             );
         }
@@ -103,6 +113,7 @@ export default function ListSuggestion({
     }
 
     return (
+    <>
         <div className="w-full min-w-0 overflow-hidden rounded-[22px] border border-[#F3DDE4] bg-[#FFFDFC] shadow-[0_12px_40px_rgba(91,55,70,0.08)]">
             <div className="grid w-full grid-cols-[70px_minmax(0,1fr)_115px_125px_135px] border-b border-[#F3DDE4] bg-gradient-to-r from-[#FFF1F4] via-[#FFF8F2] to-[#FFF7E5] px-5 py-4 font-semibold text-[#5C4A52]">
                 <div>Mã phim</div>
@@ -139,5 +150,17 @@ export default function ListSuggestion({
                 </div>
             ))}
         </div>
-    );
+
+        <DeleteSuggestionModal
+            open={!!selectedSuggestion}
+            id={selectedSuggestion?.id}
+            title={selectedSuggestion?.title_vn}
+            onCancel={() => setSelectedSuggestion(null)}
+            onSuccess={() => {
+                setSelectedSuggestion(null);
+                onDeleteSuccess?.();
+            }}
+        />
+    </>
+);
 }

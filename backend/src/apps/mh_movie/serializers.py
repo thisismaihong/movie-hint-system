@@ -250,3 +250,27 @@ class MySuggestedMovieOutputSerializer(serializers.ModelSerializer):
             movie_country.country.name
             for movie_country in obj.movie_countries.all()
         ]
+
+class MySuggestedMovieDetailOutputSerializer(serializers.ModelSerializer):
+    country = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Movie
+        fields = [
+            "id",
+            "title_vn",
+            "title_en",
+            "country",
+            "description_vn",
+            "release_year",
+            "status",
+            "date_added",
+            "admin_note",
+            "reviewed_date",
+        ]
+
+    def get_country(self, obj):
+        return [
+            movie_country.country.name
+            for movie_country in obj.movie_countries.all()
+        ]
