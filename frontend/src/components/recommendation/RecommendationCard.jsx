@@ -103,7 +103,7 @@ export default function RecommendationCard({ recommendation }) {
                             </div>
 
                             <Text className="!font-semibold !text-[#3A321F]">
-                                Vì sao đề xuất?
+                                Được đề xuất vì
                             </Text>
                         </div>
                         <p className="line-clamp-3 text-sm leading-6 text-[#3A362D]">
